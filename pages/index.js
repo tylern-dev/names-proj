@@ -5,9 +5,7 @@ const StyledTitle = styled.h1`
 `
 
 const HomePage = () => {
-  return (
-    <StyledTitle>HomePage</StyledTitle>
-  )
+  return <StyledTitle>HomePage</StyledTitle>
 }
 
 export default HomePage

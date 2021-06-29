@@ -10,8 +10,22 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Names {
-  id   Int    @id @default(autoincrement())
-  name String
+model Name {
+  id         Int          @id @default(autoincrement())
+  name       String
+  sex        Sex
+  popularity Popularity[]
+}
 
+model Popularity {
+  id     Int  @id @default(autoincrement())
+  year   Int
+  rank   Int
+  name   Name @relation(fields: [nameId], references: [id])
+  nameId Int
+}
+
+enum Sex {
+  MALE
+  FEMALE
 }
