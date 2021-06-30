@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 const filepath = '/home/tyler/developer/tutorials/proj-names/names/yob2020.txt'
 fs.readFile(filepath, 'utf8', (err, data) => {
@@ -6,6 +7,7 @@ fs.readFile(filepath, 'utf8', (err, data) => {
     console.log(err)
     return
   }
+  const year = path.basename(filepath)
   extractNames(data)
 })
 
@@ -14,21 +16,24 @@ function extractNames(names) {
   const convertAndFixNames = names.split(/[\r,\n]/g).filter((i) => i !== '')
 
   // console.log(convertAndFixNames);
-  const groupedNames = groupArray(convertAndFixNames)
+  const groupedNames = transformNameData(convertAndFixNames, 3)
   console.log(groupedNames)
 }
-// help https://stackoverflow.com/questions/38048497/group-array-values-in-group-of-3-objects-in-each-array-using-underscore-js
-function groupArray(arr) {
-  const groupByEveryThree = 3
-  return arr.reduce(
-    (accum, current, i) =>
-      (i % groupByEveryThree
-        ? accum[accum.length - 1].push({
-            name: current[i],
-            sex: current[i + 1],
-            popularity: current[i + 2],
-          })
-        : accum.push(current)) && accum,
-    []
-  )
+
+function transformNameData(data, n) {
+  const group = []
+  const groupByAmount = 3
+  const year = path.basename(filepath).match(/\d/g).join('')
+  for (let i = 0, j = 0; i < data.length; i++) {
+    if (i >= groupByAmount && i % groupByAmount === 0) {
+      j++
+    }
+    group[j] = {
+      name: data[i - 2],
+      sex: data[i - 1],
+      popularity: data[i],
+      year: year,
+    }
+  }
+  return group
 }
