@@ -7,7 +7,6 @@ fs.readFile(filepath, 'utf8', (err, data) => {
     console.log(err)
     return
   }
-  const year = path.basename(filepath)
   extractNames(data)
 })
 
@@ -17,10 +16,9 @@ function extractNames(names) {
 
   // console.log(convertAndFixNames);
   const groupedNames = transformNameData(convertAndFixNames, 3)
-  console.log(groupedNames)
 }
 
-function transformNameData(data, n) {
+export function transformNameData(data, n) {
   const group = []
   const groupByAmount = 3
   const year = path.basename(filepath).match(/\d/g).join('')
