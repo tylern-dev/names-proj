@@ -15,10 +15,10 @@ function extractNames(names) {
   const convertAndFixNames = names.split(/[\r,\n]/g).filter((i) => i !== '')
 
   // console.log(convertAndFixNames);
-  const groupedNames = transformNameData(convertAndFixNames, 3)
+  const groupedNames = transformNameData(convertAndFixNames)
 }
 
-export function transformNameData(data, n) {
+export function transformNameData(data) {
   const group = []
   const groupByAmount = 3
   const year = path.basename(filepath).match(/\d/g).join('')
