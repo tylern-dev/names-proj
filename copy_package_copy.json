@@ -1,14 +1,16 @@
 {
-  "private": "true",
   "name": "proj-names",
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "build:client": "NODE_ENV=production webpack --config config/webpack.config.client.babel.js --mode production",
-    "build:server": "NODE_ENV=production webpack --config config/webpack.config.server.babel.js --mode production",
-    "start": "NODE_ENV=development TZ=UTC npm-run-all --parallel start:client start:server",
-    "start:client": "webpack-dev-server -r dotenv/config --config config/webpack.config.client.babel.js --mode development",
-    "start:server": "webpack -r dotenv/config --config config/webpack.config.server.babel.js --mode development"
+    "dev": "",
+    "build": "npm build",
+    "start": "NODE_ENV=development TZ=UTC concurrently \"npm-run-all --parallel start:server start:client\"",
+    "start:server": "webpack -r dotenv/config --config config/webpack.config.server.babel.js --mode development",
+    "start:client": "npm start --prefix client",
+    "lint": "next lint",
+    "test": "jest --verbose --coverage",
+    "test:watch": "jest --watch"
   },
   "contributors": [
     "Tyler Negro"
@@ -23,10 +25,6 @@
     "graphql": "^15.5.1",
     "nexus": "^1.1.0",
     "pg": "^8.6.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "serialize-javascript": "^6.0.0",
     "styled-components": "^5.3.0"
   },
   "resolutions": {
@@ -34,15 +32,10 @@
     "babel-jest": "26.6.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
-    "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
-    "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.14.5",
     "babel-jest": "^27.0.6",
-    "babel-loader": "^8.0.6",
-    "babel-polyfill": "^6.26.0",
     "dotenv": "^10.0.0",
     "eslint": "^7.29.0",
     "eslint-config-next": "^11.0.1",
@@ -52,15 +45,11 @@
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
-    "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.12",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "prisma": "^2.25.0",
-    "react-hot-loader": "^4.13.0",
-    "source-map-loader": "^1.1.1",
     "start-server-webpack-plugin": "^2.2.5",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
