@@ -8,7 +8,8 @@
     "dev": "NODE_ENV=development TZ=UTC npm-run-all --parallel start:client start:server",
     "build": "NODE_ENV=production webpack --config config/webpack.config.client.js --mode production",
     "start:server": "NODE_ENV=development webpack --config config/webpack.config.server.babel.js --mode development --hot",
-    "start:client": "NODE_ENV=development webpack serve  --config config/webpack.config.client.babel.js --mode development"
+    "start:client": "NODE_ENV=development webpack serve  --config config/webpack.config.client.babel.js --mode development",
+    "start:snowpack": "snowpack dev --config config/snowpack.config.mjs --polyfill-node"
   },
   "contributors": [
     "Tyler Negro"
@@ -41,6 +42,7 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.14.5",
+    "@testing-library/jest-dom": "^5.14.1",
     "@webpack-cli/serve": "^1.5.1",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.0.6",
@@ -64,6 +66,7 @@
     "prisma": "^2.25.0",
     "razzle-start-server-webpack-plugin": "^4.0.5",
     "react-hot-loader": "^4.13.0",
+    "snowpack": "^3.8.2",
     "source-map-loader": "^1.1.1",
     "webpack": "^5.44.0",
     "webpack-cli": "^4.7.2",
