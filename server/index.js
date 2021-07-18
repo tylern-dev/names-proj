@@ -7,14 +7,15 @@ server.listen(PORT, HOST, () => {
   console.info(`Listening on port http://${HOST}:${PORT}`)
 })
 
-let current = app
+const { NODE_ENV, DATABASE_URL } = process.env
 
+let current = app
 module.hot &&
   module.hot.accept('./server', () => {
     const { default: next } = require('./server')
 
     server.removeListener('request', current)
-    server.on('request', next)
+    server.on('request', app)
 
-    current = next
+    current = app
   })

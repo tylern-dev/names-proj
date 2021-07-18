@@ -1,10 +1,8 @@
-import render from './render'
-import Routes from './routes'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './app'
+const title = 'React with Webpack and Babel'
 
-render({ Routes })
+ReactDOM.render(<App />, document.getElementById('app'))
 
-module.hot &&
-  module.hot.accept('./routes', () => {
-    const { default: Routes } = require('./routes')
-    render({ Routes })
-  })
+module.hot.accept()
