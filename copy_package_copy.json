@@ -1,0 +1,60 @@
+{
+  "name": "proj-names",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "dev": "",
+    "build": "npm build",
+    "start": "NODE_ENV=development TZ=UTC concurrently \"npm-run-all --parallel start:server start:client\"",
+    "start:server": "webpack -r dotenv/config --config config/webpack.config.server.babel.js --mode development",
+    "start:client": "npm start --prefix client",
+    "lint": "next lint",
+    "test": "jest --verbose --coverage",
+    "test:watch": "jest --watch"
+  },
+  "contributors": [
+    "Tyler Negro"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^2.25.0",
+    "apollo-server-micro": "^2.25.2",
+    "concurrently": "^6.2.0",
+    "dataloader": "^2.0.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.1",
+    "nexus": "^1.1.0",
+    "pg": "^8.6.0",
+    "styled-components": "^5.3.0"
+  },
+  "resolutions": {
+    "jest": "26.6.0",
+    "babel-jest": "26.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/register": "^7.14.5",
+    "babel-jest": "^27.0.6",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.29.0",
+    "eslint-config-next": "^11.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-config-standard-jsx": "^10.0.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
+    "morgan": "^1.10.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
+    "prisma": "^2.25.0",
+    "start-server-webpack-plugin": "^2.2.5",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-node-externals": "^2.5.2",
+    "webpack-s3-plugin": "^1.2.0-rc.0"
+  }
+}
