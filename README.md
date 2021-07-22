@@ -1,4 +1,4 @@
-### Resources
+## Resources
 
 [Log Rocket building-a-graphql-server-in-next-js ](https://www.preciouschicken.com/blog/posts/vercel-apollo-server-react/)
 
@@ -10,9 +10,13 @@
 
 [postgres user and DB setup](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e)
 
-#### Webpack
+#### Webpack (not currently used in this project)
 
 [Webpack](https://binyamin.medium.com/creating-a-node-express-webpack-app-with-dev-and-prod-builds-a4962ce51334)
+
+### esBuild & Snowpack
+[ESBuild](https://esbuild.github.io/)
+[Snowpack](https://www.snowpack.dev/)
 
 ---
 
@@ -40,3 +44,8 @@ Great, you have a running PostgreSQL instance and you should be able to enter th
 
 Now you are in the container's bash console. Connect to the database
 `root@dfa570d6e843:/# psql -h localhost -U postgres`
+
+---
+# Getting started
+1. Head into each project (`client`, `server`, `snowslide`) and install dependencies.
+2. `snowslide` is the app that starts all the services. Start the `client` and `server` app with `npm run dev`
