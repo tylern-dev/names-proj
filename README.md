@@ -10,13 +10,21 @@
 
 [postgres user and DB setup](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e)
 
+[Prisma/docker stuff](https://www.digitalocean.com/community/tutorials/how-to-build-a-rest-api-with-prisma-and-postgresql)
+
 #### Webpack (not currently used in this project)
 
 [Webpack](https://binyamin.medium.com/creating-a-node-express-webpack-app-with-dev-and-prod-builds-a4962ce51334)
 
 ### esBuild & Snowpack
+
 [ESBuild](https://esbuild.github.io/)
 [Snowpack](https://www.snowpack.dev/)
+
+### Graphql stuff
+
+[graphql-modules](https://www.graphql-modules.com/docs/get-started)
+[graphql-tools](https://www.graphql-tools.com/docs/introduction)
 
 ---
 
@@ -46,6 +54,8 @@ Now you are in the container's bash console. Connect to the database
 `root@dfa570d6e843:/# psql -h localhost -U postgres`
 
 ---
+
 # Getting started
+
 1. Head into each project (`client`, `server`, `snowslide`) and install dependencies.
 2. `snowslide` is the app that starts all the services. Start the `client` and `server` app with `npm run dev`
