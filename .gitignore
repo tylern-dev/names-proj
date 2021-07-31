@@ -26,3 +26,4 @@ chrome-user-data
 *.swp
 *.swo
 dist
+raw_name_data

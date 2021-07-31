@@ -1,5 +1,6 @@
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
-import { resolvers as nameResolvers, typeDefs as nameTypeDefs } from './names'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { resolvers as nameResolvers, typeDefs as nameTypeDefs } from './baby-names'
 
 const resolvers = [nameResolvers]
 

@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 import apolloServerContext from './apollo-server-context'
 import depthLimit from 'graphql-depth-limit'
 import apolloServerFormatError from './apollo-server-format-error'
