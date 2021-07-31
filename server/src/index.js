@@ -1,28 +1,29 @@
-// import { createServer } from 'http'
-// import app from './server'
-import { ApolloServer, gql } from 'apollo-server-express'
 import dotenv from 'dotenv'
 import chalk from 'chalk'
+import cors from 'cors'
+import expressJwt from 'express-jwt'
+import authApi from './auth'
 
 dotenv.config()
 
-const { HOST, PORT } = process.env
-// const server = createServer(app)
-// server.listen(PORT, HOST, () => {
-//   console.info(`Listening on port http://${HOST}:${PORT}`)
-// })
+const { HOST, PORT, JWT_SECRET } = process.env
 
 import express from 'express'
 import createApolloServer from './lib/create-apollo-server.js'
 
 const app = express()
-export default app
 
-app.get('/', (req, res) => {
-  res.send({ data: 'Hello world' })
-})
+app.use(cors())
 
-app.post('/names', (req, res) => {})
+app.use(
+  expressJwt({
+    secret: JWT_SECRET,
+    algorithms: ['HS256'],
+    credentialsRequired: false,
+  })
+)
+
+app.use('/auth-api', authApi)
 
 createApolloServer()
   .then(async (apolloServer) => {
