@@ -4,25 +4,6 @@ import depthLimit from 'graphql-depth-limit'
 import apolloServerFormatError from './apollo-server-format-error'
 import { mergedResolvers, mergedTypeDefs } from '../graphql/create-schema'
 
-// const testDef = gql`
-//   type Query {
-//     void: String
-//   }
-
-//   type Mutation {
-//     void: String
-//   }
-// `
-
-// const resolvers = {
-//   Query: {
-//     void: () => {},
-//   },
-//   Mutation: {
-//     void: () => {},
-//   },
-// }
-
 const createApolloServer = async () => {
   return new ApolloServer({
     introspection: true,
