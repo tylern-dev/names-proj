@@ -6,6 +6,7 @@ CREATE TABLE "Name" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "sex" "Sex" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY ("id")
 );
