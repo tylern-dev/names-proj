@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import chalk from 'chalk'
 import cors from 'cors'
+import bodyParser from 'body-parser'
 import expressJwt from 'express-jwt'
 import authApi from './auth'
 
@@ -14,6 +15,7 @@ import createApolloServer from './lib/create-apollo-server.js'
 const app = express()
 
 app.use(cors())
+app.use(bodyParser.json())
 
 app.use(
   expressJwt({
