@@ -9,10 +9,15 @@
     "dev": "nodemon -x \"npm run buildrun\"  --ignore dist",
     "buildrun": "npm run build:dev && npm run start:server",
     "build:dev": "rm -rf dist && node ./scripts/build.js",
-    "start:server": "nodemon ./dist/index.js --delay 500ms"
+    "start:server": "nodemon ./dist/index.js --delay 500ms",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:generate": "npx prisma generate" 
   },
   "author": "",
   "license": "ISC",
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
+  },
   "devDependencies": {
     "esbuild": "^0.12.15",
     "eslint": "^7.31.0",

@@ -8,7 +8,7 @@ const esbuild = require('esbuild')
       bundle: true,
       sourcemap: true,
       platform: 'node',
-      external: ['express'],
+      external: ['express', '@prisma'],
     })
   } catch (e) {
     console.error('error', e)
