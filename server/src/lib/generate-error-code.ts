@@ -1,6 +1,11 @@
 import crypto from 'crypto'
 
-export default function generateErrorCode() {
+function sha256(message: string): string {
+  return crypto.createHash('sha256').update(message).digest('hex');
+}
+
+
+export default function generateErrorCode(message: string | undefined) {
   if (!message) return undefined
   let hash = ''
   try {
