@@ -1,23 +1,28 @@
-import { Role } from '@prisma/client'
 import { hash } from 'bcrypt'
 import { Response, Request, NextFunction } from 'express'
 import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { newUser } from './new-user'
 
-
+type UserData = {
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
+}
 
 export default async (req:Request, res:Response, next:NextFunction ) => {
-  const { email, password, firstName, LastName } = req.body
+  const { email, password, firstName, lastName } = req.body
   if (!(email && password)) {
     res.status(400).send('All input is required')
   }
   
   try {
     const hashedPassword = await hash(password, 12)
+    if(!hashedPassword) throw new Error('Error building password hash')
 
-    const userData = {
+    const userData: UserData = {
       firstName,
-      LastName,
+      lastName,
       email,
       password: hashedPassword,
     }
