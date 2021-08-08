@@ -6,8 +6,7 @@ import { mergedResolvers, mergedTypeDefs } from '../graphql/create-schema'
 
 const createApolloServer = async () => {
   return new ApolloServer({
-    introspection: true,
-    playground: true,
+    introspection: true, 
     // schema,
     typeDefs: mergedTypeDefs,
     resolvers: mergedResolvers,

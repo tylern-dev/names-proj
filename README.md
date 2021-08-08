@@ -26,6 +26,10 @@
 [graphql-modules](https://www.graphql-modules.com/docs/get-started)
 [graphql-tools](https://www.graphql-tools.com/docs/introduction)
 
+### Hosting Options
+
+[Backend - Render.com](https://render.com/)
+
 ---
 
 ## Docker Setup Notes
