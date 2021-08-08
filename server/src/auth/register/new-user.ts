@@ -10,7 +10,7 @@ interface User {
   role: Role
 }
 
-export const newUser = async ({ email = '', password = '', firstName = '', lastName = '' } = {}):Promise<User> => {
+export const newUser = async ({ email = '', password = '', firstName = '', lastName = '' } = {}): Promise<User> => {
   return await prisma.user.create({
     data: {
       email,
@@ -23,7 +23,7 @@ export const newUser = async ({ email = '', password = '', firstName = '', lastN
       email: true,
       firstName: true,
       lastName: true,
-      role: true
+      role: true,
     },
   })
 }
