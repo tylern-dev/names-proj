@@ -6,5 +6,7 @@ const resolvers = [nameResolvers]
 
 const types = [nameTypeDefs]
 
-export const mergedResolvers = mergeResolvers(resolvers)
-export const mergedTypeDefs = mergeTypeDefs(types)
+// export const mergedResolvers = mergeResolvers(resolvers)
+// export const mergedTypeDefs = mergeTypeDefs(types)
+
+export const schema = makeExecutableSchema({typeDefs: types, resolvers: resolvers, })

@@ -1,7 +1,8 @@
 import { gql } from 'apollo-server-express'
 const typeDef = gql`
   type Query {
-    name: String
+    name(name: String): String
+    age: Int
   }
 
   type Mutation {
