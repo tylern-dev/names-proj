@@ -7,7 +7,7 @@ import authApi from './auth'
 
 dotenv.config()
 
-const { HOST, PORT, JWT_ACCESS_TOKEN_SECRET='' } = process.env
+const { HOST, PORT, JWT_ACCESS_TOKEN_SECRET='', REFRESH_TOKEN_SECRET } = process.env
 
 import express from 'express'
 import createApolloServer from './lib/create-apollo-server.js'

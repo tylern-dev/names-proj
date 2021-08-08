@@ -1,6 +1,9 @@
+
 const resolvers = {
   Query: {
-    name: () => 'Tyler',
+    //@ts-ignore
+    name: (parent, args, context) => 'Tyler',
+    age: () => 1
   },
   Mutation: {
     addName: () => true,

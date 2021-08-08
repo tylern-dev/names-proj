@@ -2,14 +2,15 @@ import { ApolloServer } from 'apollo-server-express'
 import apolloServerContext from './apollo-server-context'
 import depthLimit from 'graphql-depth-limit'
 import apolloServerFormatError from './apollo-server-format-error'
-import { mergedResolvers, mergedTypeDefs } from '../graphql/create-schema'
-
+import { schema } from '../graphql/create-schema'
+import { applyMiddleware } from 'graphql-middleware'
+import permissions from '../auth/permissions'
 const createApolloServer = async () => {
   return new ApolloServer({
-    introspection: true, 
-    // schema,
-    typeDefs: mergedTypeDefs,
-    resolvers: mergedResolvers,
+    introspection: true,
+    schema: applyMiddleware(schema, permissions),
+    // typeDefs: mergedTypeDefs,
+    // resolvers: mergedResolvers,
     context: apolloServerContext,
     // dataSources
     validationRules: [depthLimit(8)],
