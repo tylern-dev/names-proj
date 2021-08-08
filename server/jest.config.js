@@ -4,6 +4,10 @@
 const config = {
   verbose: true,
   setupFilesAfterEnv: ['./jest.setup.js'],
+  transform: {
+    '^.+\\.js?$': 'esbuild-jest',
+    '^.+\\.ts?$': 'esbuild-jest',
+  },
 }
 
 module.exports = config
@@ -12,5 +16,9 @@ module.exports = config
 module.exports = async () => {
   return {
     verbose: true,
+    transform: {
+      '^.+\\.js?$': 'esbuild-jest',
+      '^.+\\.ts?$': 'esbuild-jest',
+    },
   }
 }
