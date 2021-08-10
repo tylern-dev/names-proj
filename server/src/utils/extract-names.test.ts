@@ -1,4 +1,4 @@
-import { transformNameData } from './extract-names.js'
+import { transformNameData } from './extract-names'
 
 describe('extracting names util', () => {
   it('should extract names from array and transfrom them', () => {

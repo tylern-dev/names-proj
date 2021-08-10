@@ -21,11 +21,12 @@ model Name {
 }
 
 model Popularity {
-  id     Int  @id @default(autoincrement())
-  year   Int
-  rank   Int
-  name   Name @relation(fields: [nameId], references: [id])
-  nameId Int
+  id         Int  @id @default(autoincrement())
+  year       Int
+  rank       Int
+  popularity Int
+  name       Name @relation(fields: [nameId], references: [id])
+  nameId     Int
 }
 
 model User {

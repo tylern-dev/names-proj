@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
-const filepath = '/home/tyler/developer/tutorials/proj-names/names/yob2020.txt'
+const filepath = '/home/tyler/developer/proj-names/raw_name_data/yob2020.txt'
 fs.readFile(filepath, 'utf8', (err, data) => {
   if (err) {
     console.log(err)
@@ -10,15 +10,17 @@ fs.readFile(filepath, 'utf8', (err, data) => {
   extractNames(data)
 })
 
-function extractNames(names) {
+export function extractNames(names: string) {
   // splits the string on the \r and \n and filters out any spaces
   const convertAndFixNames = names.split(/[\r,\n]/g).filter((i) => i !== '')
 
   // console.log(convertAndFixNames);
   const groupedNames = transformNameData(convertAndFixNames)
+
+  return groupedNames
 }
 
-export function transformNameData(data) {
+export function transformNameData(data: any) {
   const group = []
   const groupByAmount = 3
   const year = path.basename(filepath).match(/\d/g).join('')
