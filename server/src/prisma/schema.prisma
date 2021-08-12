@@ -7,56 +7,59 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
-model Name {
-  id         Int          @id @default(autoincrement())
+model name {
+  id         String       @id @default(uuid())
   name       String
-  sex        Sex
-  popularity Popularity[]
+  sex        sex
+  popularity popularity[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 
+
+  @@unique(fields: [name, sex], name: "nameId")
 }
 
-model Popularity {
-  id         Int  @id @default(autoincrement())
+model popularity {
+  id         Int    @id @default(autoincrement())
   year       Int
   rank       Int
   popularity Int
-  name       Name @relation(fields: [nameId], references: [id])
-  nameId     Int
+  name       name   @relation(fields: [nameId], references: [id])
+  nameId     String
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
+model user {
+  id        String   @id @default(uuid())
   email     String   @unique
   password  String
   firstName String?
   lastName  String?
-  role      Role     @default(USER)
-  profile   Profile?
+  role      role     @default(USER)
+  profile   profile?
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
 }
 
-model Profile {
+model profile {
   id      Int       @id @default(autoincrement())
   bio     String?
   babyDOB DateTime?
-  user    User      @relation(fields: [userId], references: [id])
-  userId  Int
+  user    user      @relation(fields: [userId], references: [id])
+  userId  String
 }
 
-enum Sex {
-  MALE
-  FEMALE
+enum sex {
+  M
+  F
 }
 
-enum Role {
+enum role {
   ADMIN
   CREATOR
   USER

@@ -22,47 +22,47 @@ const rawData = [
   { name: 'Lucas', sex: 'M', popularity: '11281', year: '2020' },
 ]
 
-const transformedNameData = transformNames(rawData)
+// const transformedNameData = transformNames(rawData)
 
-async function seed() {
-  transformedNameData.forEach(async (name) => {
-    const nameId = await prisma.name.findFirst({
-      where: {
-        name: name.name,
-      },
-      select: {
-        id: true,
-      },
-    })
-    await prisma.name.upsert({
-      where: {
-        id: nameId.id,
-      },
-      update: {
-        popularity: {
-          create: {
-            rank: name.rank,
-            popularity: name.popularity,
-            year: name.year,
-          },
-        },
-      },
-      create: {
-        name: name.name,
-        sex: name.sex === 'M' ? 'MALE' : 'FEMALE',
-        popularity: {
-          create: {
-            rank: name.rank,
-            popularity: name.popularity,
-            year: name.year,
-          },
-        },
-      },
-    })
-  })
-}
+// async function seed() {
+//   transformedNameData.forEach(async (name) => {
+//     const nameId = await prisma.name.findFirst({
+//       where: {
+//         name: name.name,
+//       },
+//       select: {
+//         id: true,
+//       },
+//     })
+//     await prisma.name.upsert({
+//       where: {
+//         id: nameId.id,
+//       },
+//       update: {
+//         popularity: {
+//           create: {
+//             rank: name.rank,
+//             popularity: name.popularity,
+//             year: name.year,
+//           },
+//         },
+//       },
+//       create: {
+//         name: name.name,
+//         sex: name.sex === 'M' ? 'MALE' : 'FEMALE',
+//         popularity: {
+//           create: {
+//             rank: name.rank,
+//             popularity: name.popularity,
+//             year: name.year,
+//           },
+//         },
+//       },
+//     })
+//   })
+// }
 
-seed()
+// seed()
 
 // async function seed() {
 //   console.log(transformedNameData)

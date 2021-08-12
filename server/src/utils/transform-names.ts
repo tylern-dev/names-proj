@@ -1,12 +1,17 @@
-type Name = {
-  popularity: number
-  year: number
+export type Name = {
+  popularity: number | string
+  year: number | string
   name: string
   sex: 'M' | 'F'
-  rank: number
+  rank?: number
 }
 
-export function transformNames(data: Array<Name>) {
+interface TransformedNameResult {
+  mNames: Name[]
+  fNames: Name[]
+}
+
+export const transformNames = (data: Array<Name>): TransformedNameResult => {
   const transformedNames = data.map(({ popularity, year, ...rest }) => ({
     ...rest,
     popularity: Number(popularity),
@@ -15,7 +20,10 @@ export function transformNames(data: Array<Name>) {
   const mNames = transformedNames.filter(({ sex }) => sex === 'M')
   const fNames = transformedNames.filter(({ sex }) => sex === 'F')
 
-  return [...addRanking(mNames), ...addRanking(fNames)]
+  return {
+    mNames: addRanking(mNames),
+    fNames: addRanking(fNames),
+  }
 }
 
 function addRanking(data: Array<Name>) {
@@ -27,6 +35,14 @@ function addRanking(data: Array<Name>) {
         ...name,
         rank: rank + 1,
       })
+
+      // if the popularity is the same keep ranking tied
+    } else if (Number(name.popularity) === Number(arr[i + 1 !== undefined ? i + 1 : i].popularity)) {
+      newRankingArray.push({
+        ...name,
+        rank,
+      })
+      // increase ranking
     } else if (Number(name.popularity) >= Number(arr[i + 1 !== undefined ? i + 1 : i].popularity)) {
       rank++
       newRankingArray.push({

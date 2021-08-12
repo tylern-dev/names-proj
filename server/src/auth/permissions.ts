@@ -1,7 +1,7 @@
-import { Role } from '@prisma/client'
+import { role } from '@prisma/client'
 import { deny, rule, shield } from 'graphql-shield'
 
-function checkPermissions(user: any, permission: Role): boolean {
+function checkPermissions(user: any, permission: role): boolean {
   if (user) {
     return user.role === permission
   }
@@ -10,7 +10,7 @@ function checkPermissions(user: any, permission: Role): boolean {
 
 const isAuthenticated = rule()((parent, args, ctx) => ctx.user !== null)
 
-const isAdmin = rule()((parent, args, ctx) => checkPermissions(ctx.user, Role.ADMIN))
+const isAdmin = rule()((parent, args, ctx) => checkPermissions(ctx.user, role.ADMIN))
 
 export default shield(
   {
