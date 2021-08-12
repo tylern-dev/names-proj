@@ -63,3 +63,17 @@ Now you are in the container's bash console. Connect to the database
 
 1. Head into each project (`client`, `server`, `snowslide`) and install dependencies.
 2. `snowslide` is the app that starts all the services. Start the `client` and `server` app with `npm run dev`
+
+## PG Admin
+
+Docker command
+
+```
+ docker run --name "pgadmin4" -e "PGADMIN_DEFAULT_EMAIL=tnegro@gmail.com" -e "PGADMIN_DEFAULT_PASSWORD=password1234" -p 5050:80 -d dpage/pgadmin4
+```
+
+### Helpful items
+
+port in use:
+`sudo lsof -i :3001`
+`kill -9 <PID>`

@@ -1,16 +1,16 @@
-import { PrismaClient, Role } from '@prisma/client'
+import { PrismaClient, role } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 interface User {
-  id: number
+  id: string
   email: string
   firstName: string | null
   lastName: string | null
-  role: Role
+  role: role
 }
 
-export const newUser = async ({ email = '', password = '', firstName = '', lastName = '' } = {}):Promise<User> => {
+export const newUser = async ({ email = '', password = '', firstName = '', lastName = '' } = {}): Promise<User> => {
   return await prisma.user.create({
     data: {
       email,
@@ -23,7 +23,7 @@ export const newUser = async ({ email = '', password = '', firstName = '', lastN
       email: true,
       firstName: true,
       lastName: true,
-      role: true
+      role: true,
     },
   })
 }

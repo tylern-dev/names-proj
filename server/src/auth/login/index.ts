@@ -1,16 +1,16 @@
-import { User } from '@prisma/client'
+import { user } from '@prisma/client'
 import bcrypt from 'bcrypt'
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { getUser } from './get-user'
 
-export default async (req:Request, res:Response, next:NextFunction) => {
+export default async (req: Request, res: Response) => {
   const { email, password } = req.body
 
-  if (!email && !password) return res.status(401).json({  message: 'No email or password were supplied' })
+  if (!email && !password) return res.status(401).json({ message: 'No email or password were supplied' })
 
   try {
-    const user: User = await getUser({ email }) 
+    const user: user = await getUser({ email })
 
     if (!user) return res.status(404).send({ message: 'No valid user found' })
 

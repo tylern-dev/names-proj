@@ -4,10 +4,11 @@ import cors from 'cors'
 import { json } from 'body-parser'
 import expressJwt from 'express-jwt'
 import authApi from './auth'
+import adminApi from './admin'
 
 dotenv.config()
 
-const { HOST, PORT, JWT_ACCESS_TOKEN_SECRET='', REFRESH_TOKEN_SECRET } = process.env
+const { PORT, JWT_ACCESS_TOKEN_SECRET = '' } = process.env
 
 import express from 'express'
 import createApolloServer from './lib/create-apollo-server.js'
@@ -26,6 +27,7 @@ app.use(
 )
 
 app.use('/auth-api', authApi)
+app.use('/api/admin/', adminApi)
 
 createApolloServer()
   .then(async (apolloServer: ApolloServer) => {
@@ -42,4 +44,4 @@ createApolloServer()
       console.log(`\n🚀 Server ready at ${chalk.blue(url)}`)
     )
   })
-  .catch((error:Error) => console.error('Error creating Apollo Server', error))
+  .catch((error: Error) => console.error('Error creating Apollo Server', error))
