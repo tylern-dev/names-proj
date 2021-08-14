@@ -11,6 +11,8 @@ generator client {
   previewFeatures = ["interactiveTransactions"]
 }
 
+// add a way of tracking years to not duplicate
+
 model name {
   id         String       @id @default(uuid())
   name       String
@@ -32,6 +34,12 @@ model popularity {
   nameId     String
 }
 
+// track the years inserted into DB so that there aren't any dupes
+model namesYear {
+  id   Int @id @default(autoincrement())
+  year Int @unique
+}
+
 model user {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -47,7 +55,7 @@ model user {
 }
 
 model profile {
-  id      Int       @id @default(autoincrement())
+  id      String    @id @default(uuid())
   bio     String?
   babyDOB DateTime?
   user    user      @relation(fields: [userId], references: [id])

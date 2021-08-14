@@ -10,13 +10,17 @@ type Context = {
 }
 
 type Args = {
-  babyName: string
+  name: string
 }
 
 const resolvers = {
   Query: {
-    name: (parent: any, { babyName }: Args, { models }: Context) =>
-      models.prisma.name.findFirst({ where: { name: babyName } }),
+    name: async (parent: any, { name }: Args, { models }: Context) =>
+      await models.prisma.name.findMany({
+        where: { name: name },
+        include: { popularity: true },
+      }),
+
     age: () => 1,
   },
   Mutation: {
