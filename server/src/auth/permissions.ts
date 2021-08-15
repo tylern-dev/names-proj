@@ -15,6 +15,6 @@ const isAdmin = rule()((parent, args, ctx) => checkPermissions(ctx.user, role.AD
 export default shield({
   Query: {
     name: allow,
-    age: isAuthenticated,
+    names: allow,
   },
 })
