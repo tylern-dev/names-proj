@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-express'
 const typeDef = gql`
   type Query {
     name(name: String): [Name]
+    names(cursorPosition: Int!, take: Int): Names
     age: Int
   }
 
@@ -16,6 +17,11 @@ const typeDef = gql`
     createdAt: String
     updatedAt: String
     popularity: [Popularity]
+  }
+
+  type Names {
+    names: [Name]
+    cursor: Int
   }
 
   type Popularity {

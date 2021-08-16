@@ -39,9 +39,10 @@ createApolloServer()
     })
 
     const url = `http://localhost:${PORT}${apolloServer.graphqlPath}`
-    app.listen({ port: PORT }, () =>
+    app.listen({ port: PORT }, () => {
       // eslint-disable-next-line no-console
-      console.log(`\n🚀 Server ready at ${chalk.blue(url)}`)
-    )
+      console.log(`\n🚀 Apollo Server ready at ${chalk.blue(url)}`)
+      console.log(`\n Server is ready at http://localhost:${PORT}`)
+    })
   })
   .catch((error: Error) => console.error('Error creating Apollo Server', error))
