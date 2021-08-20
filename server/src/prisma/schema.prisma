@@ -42,18 +42,21 @@ model namesYear {
 }
 
 model user {
-  id                       String   @id @default(uuid())
-  email                    String   @unique
+  id                       String       @id @default(uuid())
+  email                    String       @unique
   firstName                String?
   lastName                 String?
-  role                     role     @default(USER)
-  profile                  profile?
-  acceptTermsAndConditions Boolean  @default(false)
-  active                   Boolean  @default(true)
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
+  role                     role         @default(USER)
+  userProfile              userProfile?
+  acceptTermsAndConditions Boolean      @default(false)
+  active                   Boolean      @default(true)
+  createdAt                DateTime     @default(now())
+  updatedAt                DateTime     @updatedAt
 
   authentication authentication[]
+  project        project[]
+  projectInvites projectInvite[]
+  rating         rating[]
 }
 
 model authentication {
@@ -63,12 +66,51 @@ model authentication {
   userId   String
 }
 
-model profile {
+model userProfile {
   id      String    @id @default(uuid())
   bio     String?
   babyDOB DateTime?
+  guestOf project[]
   user    user      @relation(fields: [userId], references: [id])
   userId  String
+}
+
+model project {
+  id             String          @id @default(uuid())
+  babyName       babyName[]
+  owner          user            @relation(fields: [ownerId], references: [id])
+  ownerId        String
+  projectName    String
+  guests         userProfile[]
+  projectInvites projectInvite[]
+}
+
+model babyName {
+  id        String   @id @default(uuid())
+  project   project  @relation(fields: [projectId], references: [id])
+  nameId    String
+  ratings   rating[]
+  projectId String
+}
+
+model rating {
+  id         String    @id @default(uuid())
+  rating     Int
+  user       user      @relation(fields: [userId], references: [id])
+  userId     String
+  babyName   babyName? @relation(fields: [babyNameId], references: [id])
+  babyNameId String?
+}
+
+model projectInvite {
+  id           String   @id @default(uuid())
+  project      project  @relation(fields: [projectId], references: [id])
+  invitee      user     @relation(fields: [userId], references: [id])
+  accepted     Boolean  @default(false)
+  acceptedDate DateTime
+  revoked      Boolean  @default(false)
+  projectId    String
+  userId       String
 }
 
 enum sex {

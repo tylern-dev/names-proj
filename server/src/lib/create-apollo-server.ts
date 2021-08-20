@@ -8,7 +8,7 @@ import permissions from '../auth/permissions'
 const createApolloServer = async () => {
   return new ApolloServer({
     introspection: true,
-    schema: applyMiddleware(schema, permissions),
+    schema: applyMiddleware(schema),
     // typeDefs: mergedTypeDefs,
     // resolvers: mergedResolvers,
     context: apolloServerContext,

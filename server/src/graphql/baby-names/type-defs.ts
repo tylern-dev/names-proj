@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express'
 const typeDef = gql`
   type Query {
-    name(name: String): [Name]
+    name(name: String, nameId: String): [Name]
     names(cursorPosition: Int!, take: Int): Names
     age: Int
   }
