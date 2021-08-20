@@ -12,15 +12,15 @@ export default async (req: Request, res: Response) => {
 
   try {
     const user: user = await getUser({ email })
-    const userId = user.id
-    const userPassword = await getPassword(userId)
-
     if (!user) return res.status(404).send({ message: 'No valid user found' })
+
+    const userId = user.id
+
+    const userPassword = await getPassword(userId)
 
     const isPasswordValid = await bcrypt.compare(password, userPassword.password)
 
     if (!isPasswordValid) return res.status(401).json({ message: 'Invalid username or password' })
-    console.log({ user })
 
     const accessToken = await signAccessToken({ userId: user.id, role: user.role })
     const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })

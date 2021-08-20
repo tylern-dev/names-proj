@@ -1,16 +1,9 @@
-import { prisma, PrismaClient } from '@prisma/client'
 import { toTitleCase } from '../utils/convert-title-case'
-
-type Model = {
-  prisma: PrismaClient
-}
-
-type Context = {
-  models: Model
-}
+import { Context } from '../../types/common'
 
 interface NameArgs {
   name: string
+  nameId: string
 }
 
 type NamesArgs = {
@@ -20,9 +13,16 @@ type NamesArgs = {
 
 const resolvers = {
   Query: {
-    name: async (parent: any, { name }: NameArgs, { models }: Context) => {
+    name: async (parent: any, { name, nameId }: NameArgs, { models }: Context) => {
       const titleCaseName = toTitleCase(name).trim()
 
+      if (nameId && !name) {
+        const data = await models.prisma.name.findUnique({
+          where: { id: nameId },
+          include: { popularity: true },
+        })
+        return [data]
+      }
       return await models.prisma.name.findMany({
         where: { name: titleCaseName },
         include: { popularity: true },
