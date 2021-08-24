@@ -10,8 +10,10 @@ const resolvers = {
         user: {
           payload: { userId },
         },
-      }: Context
+      }: Context,
+      info: any
     ) => {
+      console.log(info)
       if (id) {
         return await models.prisma.project.findUnique({
           where: { id },
@@ -21,7 +23,7 @@ const resolvers = {
         where: {
           ownerId: userId,
         },
-        include: { babyName: true },
+        include: { babyName: { include: { name: true } } },
       })
       console.log({ project })
       return project
@@ -58,18 +60,25 @@ const resolvers = {
           project: { some: { id: projectId } },
         },
       })
-      console.log(userHasProjectId)
+
       if (userHasProjectId) {
-        return await models.prisma.project.update({
+        const nameWithProject = await models.prisma.project.update({
           where: { id: projectId },
           data: { babyName: { create: { nameId: nameId } } },
+          include: { babyName: { include: { name: true } } },
         })
+
+        console.log(nameWithProject.babyName)
+        return nameWithProject
       }
       // const project = await models.prisma.project.update({
       //   where: { id: projectId },
       //   data: { babyName: { create: { nameId } } },
       // })
     },
+  },
+  Project: {
+    projectName: async ({ id }: { id: string }) => console.log({ id }),
   },
 }
 

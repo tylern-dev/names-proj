@@ -19,6 +19,7 @@ const typeDef = gql`
   type BabyName {
     id: String
     nameId: String
+    name: Name
     limit: Int
     ratings: [Rating]
     projectId: String
