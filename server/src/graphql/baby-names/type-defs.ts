@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 const typeDef = gql`
   type Query {
     name(name: String, nameId: String): [Name]
-    names(cursorPosition: Int!, take: Int): Names
+    names(cursorPosition: Int!, take: Int, sex: Sex): Names
     age: Int
   }
 
@@ -29,6 +29,11 @@ const typeDef = gql`
     year: Int
     rank: Int
     popularity: Int
+  }
+
+  enum Sex {
+    M
+    F
   }
 `
 

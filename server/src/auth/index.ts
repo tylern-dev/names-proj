@@ -10,6 +10,8 @@ router.post('/register', register)
 
 router.post('/login', login)
 
-router.post('/forgot', (req, res) => {})
+router.post('/forgot', (req, res) => {
+  console.log(req)
+})
 
 router.post('/token', (req, res) => {})

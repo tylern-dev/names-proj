@@ -28,7 +28,7 @@ export default async (req: Request, res: Response) => {
     res.cookie('token', refreshToken, { httpOnly: true })
 
     return res.json({ status: true, message: 'Login successful', data: { accessToken } })
-  } catch (e) {
+  } catch (e: any) {
     res.sendStatus(401)
     throw new Error(e)
   }

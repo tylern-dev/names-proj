@@ -2,29 +2,10 @@ import { Context } from 'src/types/common'
 
 const resolvers = {
   Query: {
-    project: async (
-      parent: any,
-      { id }: { id: string },
-      {
-        models,
-        user: {
-          payload: { userId },
-        },
-      }: Context
-    ) => {
-      if (id) {
-        return await models.prisma.project.findUnique({
-          where: { id },
-        })
-      }
-      const project = await models.prisma.project.findMany({
-        where: {
-          ownerId: userId,
-        },
-        include: { babyName: true },
-      })
-      console.log({ project })
-      return project
+    projects: async (parent: any, args: any, { models, user }: Context) =>
+      await models.prisma.project.findMany({ where: { ownerId: user.payload.userId } }),
+    project: async (parent: any, { id }: { id: string }, { models }: Context) => {
+      return await models.prisma.project.findUnique({ where: { id } })
     },
   },
   Mutation: {
@@ -51,25 +32,32 @@ const resolvers = {
       { projectId, nameId }: { projectId: string; nameId: string },
       { models, user }: Context
     ) => {
-      console.log(nameId)
       const userHasProjectId = await models.prisma.user.findFirst({
         where: {
           id: user.payload.userId,
           project: { some: { id: projectId } },
         },
       })
-      console.log(userHasProjectId)
+
       if (userHasProjectId) {
-        return await models.prisma.project.update({
+        const nameWithProject = await models.prisma.project.update({
           where: { id: projectId },
           data: { babyName: { create: { nameId: nameId } } },
+          include: { babyName: { include: { name: true } } },
         })
+
+        console.log(nameWithProject.babyName)
+        return nameWithProject
       }
-      // const project = await models.prisma.project.update({
-      //   where: { id: projectId },
-      //   data: { babyName: { create: { nameId } } },
-      // })
+      return null
     },
+  },
+  Project: {
+    babyName: (root: any, args: any, { models }: Context) =>
+      models.prisma.project.findFirst({ where: { id: root.id } }).babyName(),
+  },
+  BabyName: {
+    name: (root: any, args: any, { models }: Context) => models.prisma.name.findFirst({ where: { id: root.nameId } }),
   },
 }
 

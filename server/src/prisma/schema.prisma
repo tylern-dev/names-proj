@@ -14,13 +14,14 @@ generator client {
 // add a way of tracking years to not duplicate
 
 model name {
-  id         String       @id @default(uuid())
-  cursorId   Int          @unique @default(autoincrement())
-  name       String
-  sex        sex
-  popularity popularity[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id              String            @id @default(uuid())
+  cursorId        Int               @unique @default(autoincrement())
+  name            String
+  sex             sex
+  popularity      popularity[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  projectBabyName projectBabyName[]
 
 
   @@unique(fields: [name, sex], name: "nameId")
@@ -76,29 +77,30 @@ model userProfile {
 }
 
 model project {
-  id             String          @id @default(uuid())
-  babyName       babyName[]
-  owner          user            @relation(fields: [ownerId], references: [id])
+  id             String            @id @default(uuid())
+  babyName       projectBabyName[]
+  owner          user              @relation(fields: [ownerId], references: [id])
   ownerId        String
   projectName    String
   guests         userProfile[]
   projectInvites projectInvite[]
 }
 
-model babyName {
+model projectBabyName {
   id        String   @id @default(uuid())
   project   project  @relation(fields: [projectId], references: [id])
+  name      name     @relation(fields: [nameId], references: [id])
   nameId    String
   ratings   rating[]
   projectId String
 }
 
 model rating {
-  id         String    @id @default(uuid())
+  id         String           @id @default(uuid())
   rating     Int
-  user       user      @relation(fields: [userId], references: [id])
+  user       user             @relation(fields: [userId], references: [id])
   userId     String
-  babyName   babyName? @relation(fields: [babyNameId], references: [id])
+  babyName   projectBabyName? @relation(fields: [babyNameId], references: [id])
   babyNameId String?
 }
 

@@ -1,8 +1,8 @@
 import { gql } from 'apollo-server-express'
 const typeDef = gql`
   extend type Query {
-    project(id: String): [Project]
-    # projects: [Project]
+    project(id: String): Project
+    projects: [Project]
   }
 
   extend type Mutation {
@@ -19,6 +19,7 @@ const typeDef = gql`
   type BabyName {
     id: String
     nameId: String
+    name: Name
     limit: Int
     ratings: [Rating]
     projectId: String

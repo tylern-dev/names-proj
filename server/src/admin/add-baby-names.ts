@@ -4,7 +4,6 @@ import { extractNames } from '../utils/extract-names'
 import { Name, transformNames } from '../utils/transform-names'
 import { Request, Response } from 'express'
 import { extractYear } from './utils/extract-year'
-import { resourceLimits } from 'worker_threads'
 
 const prismaClient = new PrismaClient()
 export const addBabyNames = async (req: Request, res: Response) => {
@@ -42,7 +41,7 @@ export const addBabyNames = async (req: Request, res: Response) => {
 
       res.status(200).json({ message: 'Loaded names succefully!' })
       prismaClient.$disconnect
-    } catch (e) {
+    } catch (e: any) {
       res.status(500)
       prismaClient.$disconnect
       throw new Error(e)
