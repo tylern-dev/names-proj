@@ -37,7 +37,7 @@ export default async (req: Request, res: Response): Promise<Response> => {
     const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
     res.cookie('token', refreshToken, { httpOnly: true })
     res.json({ status: true, message: 'login success', data: { accessToken } })
-  } catch (e) {
+  } catch (e: any) {
     res.status(500)
     throw new Error(e.data)
   }

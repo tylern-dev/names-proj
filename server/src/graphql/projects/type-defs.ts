@@ -1,8 +1,8 @@
 import { gql } from 'apollo-server-express'
 const typeDef = gql`
   extend type Query {
-    project(id: String): [Project]
-    # projects: [Project]
+    project(id: String): Project
+    projects: [Project]
   }
 
   extend type Mutation {
