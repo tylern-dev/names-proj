@@ -1,5 +1,5 @@
 import { toTitleCase } from '../utils/convert-title-case'
-import { Context } from '../../types/common'
+import { Context, OrderBy } from '../../types/common'
 import { sex } from '@prisma/client'
 
 interface NameArgs {
@@ -8,10 +8,16 @@ interface NameArgs {
   sex?: sex
 }
 
-type NamesArgs = {
-  cursorPosition: number
+interface NamesArgs {
+  skip: number
   take: number
+  orderByName?: OrderBy
   sex?: sex
+}
+
+interface NamesByYearArgs extends NamesArgs {
+  year: number
+  orderByRank?: OrderBy
 }
 
 const resolvers = {
@@ -29,20 +35,32 @@ const resolvers = {
         where: { name: titleCaseName },
       })
     },
-    names: async (parent: any, { cursorPosition = 1, take = 5, sex }: NamesArgs, { models }: Context) => {
+    //TODO: figure out best way to sort and filter based on rank
+    // I removed the cursor and am just using take and skip
+    namesByYear: async (
+      parent: any,
+      { skip = 0, take = 5, sex, year, orderByRank = 'asc' }: NamesByYearArgs,
+      { models }: Context
+    ) =>
+      await models.prisma.popularity.findMany({
+        skip,
+        take,
+        where: { year: year, name: { sex: sex } },
+        orderBy: { rank: orderByRank },
+        include: { name: true },
+      }),
+
+    names: async (parent: any, { take = 10, skip = 0, sex, orderByName = 'asc' }: NamesArgs, { models }: Context) => {
       const names = await models.prisma.name.findMany({
         take: take,
-        skip: cursorPosition === 1 ? 0 : 1,
-        orderBy: { cursorId: 'asc' },
-        include: { popularity: true },
-        where: { sex: sex },
-        cursor: { cursorId: cursorPosition },
+        skip: skip,
+        where: {
+          sex: sex,
+        },
+        orderBy: { name: orderByName },
       })
-      const lastNameInResults = names[take - 1]
-      const cursor = lastNameInResults.cursorId
       return {
         names,
-        cursor,
       }
     },
   },
@@ -50,8 +68,8 @@ const resolvers = {
     addName: () => true,
   },
   Name: {
-    popularity: (parent: any, args: any, { models }: Context) =>
-      models.prisma.name.findUnique({ where: { nameId: { name: parent.name, sex: parent.sex } } }).popularity(),
+    popularity: async (parent: any, args: any, { models }: Context) =>
+      await models.prisma.name.findUnique({ where: { nameId: { name: parent.name, sex: parent.sex } } }).popularity(),
   },
 }
 export default resolvers

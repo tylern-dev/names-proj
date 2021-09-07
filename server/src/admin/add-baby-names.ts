@@ -9,7 +9,7 @@ const prismaClient = new PrismaClient()
 export const addBabyNames = async (req: Request, res: Response) => {
   // eventaully get the text file from the front end
   // const file = req.body
-  const filepath = '/home/tyler/developer/proj-names/raw_name_data/yob2018.txt'
+  const filepath = '/home/tyler/developer/proj-names/raw_name_data/yob2020.txt'
   fs.readFile(filepath, 'utf8', async (err, data) => {
     if (err) {
       console.log(err)
@@ -18,7 +18,7 @@ export const addBabyNames = async (req: Request, res: Response) => {
 
     const extractedNames = extractNames(data, filepath)
     const transformedNames = transformNames(extractedNames)
-
+    console.log(transformedNames.fNames.slice(0, 20))
     try {
       //find if the data has already been added
       const year = extractYear(filepath)

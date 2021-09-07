@@ -14,3 +14,5 @@ export interface Context {
   models: Model
   user: JwtPayload
 }
+
+export type OrderBy = 'asc' | 'desc'
