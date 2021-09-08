@@ -46,23 +46,17 @@ const resolvers = {
       { projectId, nameId }: { projectId: string; nameId: string },
       { models, user }: Context
     ) => {
-      // FIGURE OUT WHY I AM GETTING THE ADDED BY ERROR BUT THE NAME STILL ADDS. THIS IS HAPPENING WHEN IT IS RETRIEVING THE ADDED BY NAME
-
+      //TODO: has name already been added?
       const isProjectOwner = await getIsProjectOwner(projectId, { models, user })
       const isGuestOfProject = await getIsGuestOfProject(projectId, { models, user })
       if (isProjectOwner || isGuestOfProject) {
-        const nameWithProject = await models.prisma.project.update({
-          where: { id: projectId },
+        return await models.prisma.projectBabyName.create({
           data: {
-            babyName: {
-              create: {
-                nameId: nameId,
-                userId: user.payload.userId,
-              },
-            },
+            userId: user.payload.userId,
+            nameId: nameId,
+            projectId: projectId,
           },
         })
-        return nameWithProject
       }
       return null
     },
