@@ -6,28 +6,42 @@ const typeDef = gql`
   }
 
   extend type Mutation {
-    createProject(projectName: String): Boolean
-    addNameToProject(projectId: String, nameId: String): Project
+    createProject(projectName: String): Project
+    activateProject(projectId: ID): Project
+    deactivateProject(projectId: ID): Project
+    addNameToProject(projectId: String, nameId: String): BabyName
+    deleteNameFromProject(projectBabyNameId: ID): Project
   }
 
   type Project {
     id: ID
     projectName: String
+    isActive: Boolean
+    # updatedAt: Date
+    # createdAt: Date
     babyName: [BabyName]
   }
 
   type BabyName {
-    id: String
+    id: ID
     nameId: String
     name: Name
     limit: Int
+    addedBy: User
     ratings: [Rating]
     projectId: String
   }
 
   type Rating {
-    id: String
+    id: ID
     rating: Int
+    user: User
+  }
+
+  type User {
+    id: ID
+    firstName: String
+    lastName: String
   }
 `
 

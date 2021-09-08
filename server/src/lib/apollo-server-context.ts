@@ -1,7 +1,5 @@
 import { ExpressContext } from 'apollo-server-express'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import prisma from '../../client'
 
 export default function apolloServerContext({ req }: ExpressContext) {
   const user = req.user || null
