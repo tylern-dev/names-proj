@@ -2,13 +2,15 @@ import { gql } from 'apollo-server-express'
 
 const typeDef = gql`
   extend type Mutation {
-    createInvite(): Invite
+    createInvite(projectId: ID, email: String): Invite
+    acceptInvite(inviteCode: String, email: String): Boolean
   }
 
+  # extend type Query
+
   type Invite {
-    project: Project
-    invitee: User
-    
+    email: String
+    inviteCode: String
   }
 `
 

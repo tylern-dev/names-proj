@@ -4,6 +4,7 @@ interface JwtPayload {
   payload: {
     userId: string
     role: role
+    email: string
   }
 }
 
