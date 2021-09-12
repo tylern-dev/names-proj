@@ -36,12 +36,17 @@ const resolvers = {
           },
           select: { projectId: true, id: true },
         })
+
         await models.prisma.$transaction([
           models.prisma.projectInvite.update({
             where: { id: invite.id },
             data: { accepted: true, acceptedDate: new Date() },
           }),
-          // models.prisma.userProfile.upsert({where:{}})
+          // test if this works.
+          models.prisma.user.update({
+            where: { id: user.payload.userId },
+            data: { userProfile: { update: { guestOf: { connect: { id: invite.projectId } } } } },
+          }),
         ])
 
         return true

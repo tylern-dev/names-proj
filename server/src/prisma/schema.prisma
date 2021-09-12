@@ -11,8 +11,6 @@ generator client {
   previewFeatures = ["interactiveTransactions", "referentialActions", "orderByRelation"]
 }
 
-// add a way of tracking years to not duplicate
-
 model name {
   id              String            @id @default(uuid())
   cursorId        Int               @unique @default(autoincrement())
