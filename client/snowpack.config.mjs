@@ -8,6 +8,13 @@ export default {
     '.../shared': '/shared',
   },
   plugins: ['@snowpack/plugin-dotenv', '@snowpack/plugin-babel'],
+  routes: [
+    {
+      match: 'routes',
+      src: '.*',
+      dest: '/index.html',
+    },
+  ],
   devOptions: {
     hostName: 'localhost',
     output: 'stream',
