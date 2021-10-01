@@ -19,6 +19,7 @@ interface CreateUser {
 export const newUser = async ({ email, password, firstName, lastName }: CreateUser = {}): Promise<User> => {
   const user = await prisma.user.create({
     data: {
+      userProfile: {},
       email,
       firstName,
       lastName,
@@ -37,7 +38,7 @@ export const newUser = async ({ email, password, firstName, lastName }: CreateUs
     },
   })
 
-  await prisma.userProfile.create({ data: { user: { connect: { email: user.email, id: user.id } } } })
+  await prisma.userProfile.create({ data: { userId: user.id } })
 
   return user
 }

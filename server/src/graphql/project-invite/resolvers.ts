@@ -1,6 +1,7 @@
-import { ID } from 'graphql-modules/shared/types'
 import { Context } from '../../types/common'
+import { getProjectInvite, getProjectInviteById } from '../common/get-project-invite'
 import { getIsProjectOwner } from '../common/get-projects-for-user'
+import { getUserProfile } from '../common/get-user-profile'
 
 const resolvers = {
   Mutation: {
@@ -28,34 +29,64 @@ const resolvers = {
       { inviteCode, email }: { inviteCode: string; email: string },
       { models, user }: Context
     ) => {
-      // verify and update projectectInvite
       try {
-        const invite = await models.prisma.projectInvite.findFirst({
-          where: {
-            AND: [{ email: email }, { inviteCode: inviteCode }],
-          },
-          select: { projectId: true, id: true },
-        })
+        const invite = await getProjectInvite({ email, inviteCode, models })
+
+        if (invite.accepted) {
+          return {
+            isAccepted: invite.accepted,
+            message: 'Invite has already been accepted',
+          }
+        }
+        if (invite.revoked) {
+          return {
+            isAccepted: false,
+            message: 'Invite has been revoked',
+          }
+        }
+        const userProfile = await getUserProfile({ models, user })
 
         await models.prisma.$transaction([
           models.prisma.projectInvite.update({
             where: { id: invite.id },
-            data: { accepted: true, acceptedDate: new Date() },
+            data: { accepted: true, acceptedDate: new Date(), userId: user.payload.userId },
           }),
-          // test if this works.
-          models.prisma.user.update({
-            where: { id: user.payload.userId },
-            data: { userProfile: { update: { guestOf: { connect: { id: invite.projectId } } } } },
+          models.prisma.project.update({
+            data: { guests: { connect: { id: userProfile.id } } },
+            where: { id: invite.projectId },
           }),
         ])
-
-        return true
+        return {
+          isAccepted: true,
+          message: '',
+        }
       } catch (e) {
         console.error(e)
+        return false
       }
-      // update guestOf in user profile
     },
-    // cancelInvite: async (parent: any, { inviteCode: string }, { models, user }: Context) => {},
+    revokeInvite: async (parent: any, { inviteId }: { inviteId: number }, { models, user }: Context) => {
+      try {
+        const invite = await getProjectInviteById({ inviteId, models })
+        if (invite.accepted) {
+          return {
+            revoked: false,
+            message: 'Invite already accepted',
+          }
+        }
+        const projectOwner = await (await models.prisma.project.findFirst({ where: { id: invite.projectId } })).ownerId
+        if (projectOwner !== user.payload.userId) {
+          return {
+            revoked: false,
+            message: 'Unable to revoke. Not project owner.',
+          }
+        }
+        await models.prisma.projectInvite.update({ data: { revoked: true }, where: { id: inviteId } })
+        return {
+          revoked: true,
+        }
+      } catch (error) {}
+    },
   },
   // Query: {
   // invites: async (parent: any, { email: string }, { models, user }: Context) => {},
