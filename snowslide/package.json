@@ -7,7 +7,7 @@
     "test": "echo cd ../",
     "dev": "clear && concurrently -c \"bgMagenta,bgBlue\" \"npm:server\" \"npm:client\"",
     "server": "cd ../server && npm run-script dev",
-    "client": "wait-on http://localhost:3001 && cd ../client && npm run-script dev",
+    "client": "cd ../client && npm run-script dev",
     "client:only": "cd ../client && npm run-script dev"
   },
   "author": "",

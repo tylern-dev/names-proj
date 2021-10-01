@@ -1,4 +1,4 @@
-import { role } from '@prisma/client'
+import { role, user } from '@prisma/client'
 import prisma from '../../../client'
 
 interface User {
@@ -17,8 +17,9 @@ interface CreateUser {
 }
 
 export const newUser = async ({ email, password, firstName, lastName }: CreateUser = {}): Promise<User> => {
-  return await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
+      userProfile: {},
       email,
       firstName,
       lastName,
@@ -36,4 +37,8 @@ export const newUser = async ({ email, password, firstName, lastName }: CreateUs
       role: true,
     },
   })
+
+  await prisma.userProfile.create({ data: { userId: user.id } })
+
+  return user
 }

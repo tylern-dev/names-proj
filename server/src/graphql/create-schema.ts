@@ -3,10 +3,11 @@ import { makeExecutableSchema } from '@graphql-tools/schema'
 import { resolvers as nameResolvers, typeDefs as nameTypeDefs } from './baby-names'
 import { resolvers as projectResolvers, typeDefs as projectTypeDefs } from './projects'
 import { ratingTypeDefs, ratingResolvers } from './ratings'
+import { inviteTypeDef, inviteResolvers } from './project-invite'
 
-const resolvers = [nameResolvers, projectResolvers, ratingResolvers]
+const resolvers = [nameResolvers, projectResolvers, ratingResolvers, inviteResolvers]
 
-const types = [nameTypeDefs, projectTypeDefs, ratingTypeDefs]
+const types = [nameTypeDefs, projectTypeDefs, ratingTypeDefs, inviteTypeDef]
 
 // export const mergedResolvers = mergeResolvers(resolvers)
 // export const mergedTypeDefs = mergeTypeDefs(types)
