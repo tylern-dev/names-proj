@@ -14,4 +14,6 @@ router.post('/forgot', (req, res) => {
   console.log(req)
 })
 
-router.post('/token', (req, res) => {})
+router.post('/logout', (req, res) => {
+  // invalidate refresh token
+})

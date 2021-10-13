@@ -46,7 +46,7 @@ const resolvers = {
         }
         const userProfile = await getUserProfile({ models, user })
 
-        await models.prisma.$transaction([
+        const [projectInvite] = await models.prisma.$transaction([
           models.prisma.projectInvite.update({
             where: { id: invite.id },
             data: { accepted: true, acceptedDate: new Date(), userId: user.payload.userId },
@@ -57,7 +57,7 @@ const resolvers = {
           }),
         ])
         return {
-          isAccepted: true,
+          isAccepted: projectInvite.accepted,
           message: '',
         }
       } catch (e) {

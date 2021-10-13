@@ -17,4 +17,5 @@ export default shield({
     name: allow,
     names: allow,
   },
+  // Mutation: {},
 })

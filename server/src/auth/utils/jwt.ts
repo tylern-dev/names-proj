@@ -1,6 +1,7 @@
 import { sign } from 'jsonwebtoken'
 import createError from 'http-errors'
 import dotenv from 'dotenv'
+import { v4 as uuidv4 } from 'uuid'
 
 dotenv.config()
 
@@ -23,7 +24,7 @@ export const signAccessToken = (payload: any): Promise<string> => {
 export const signRefreshToken = (payload: any): Promise<string> => {
   return new Promise((resolve, reject) => {
     sign(
-      { payload },
+      { ...payload, jti: uuidv4() },
       REFRESH_TOKEN_SECRET ?? '',
       { algorithm: 'HS256', expiresIn: REFRESH_TOKEN_LIFE },
       (err, token) => {

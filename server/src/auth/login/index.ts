@@ -4,10 +4,10 @@ import { Request, Response } from 'express'
 import { getPassword } from '../helpers/get-password'
 import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { getUser } from './get-user'
+import { addRefreshTokenToDb } from '../helpers/refresh-token'
 
 export default async (req: Request, res: Response) => {
   const { email, password } = req.body
-
   if (!email && !password) return res.status(401).json({ message: 'No email or password were supplied' })
 
   try {
@@ -25,9 +25,12 @@ export default async (req: Request, res: Response) => {
     const accessToken = await signAccessToken({ userId: user.id, role: user.role })
     const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
 
-    res.cookie('token', refreshToken, { httpOnly: true })
+    await addRefreshTokenToDb({ token: refreshToken, userId })
 
-    return res.json({ status: true, message: 'Login successful', data: { accessToken } })
+    res.cookie('x-refresh-token', refreshToken, { httpOnly: true })
+    res.set('x-token', accessToken)
+
+    return res.json({ status: true, message: 'Login successful' })
   } catch (e: any) {
     res.sendStatus(401)
     throw new Error(e)
