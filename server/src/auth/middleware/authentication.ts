@@ -58,7 +58,7 @@ const checkCookie = (cookie: CookieMap): Promise<TokenMap> => {
           })
           const signedAccessToken = signAccessToken({ userId: user.id, role: user.role })
           const signedRefreshToken = signRefreshToken({ userId: user.id })
-          const [accessToken, refreshToken]: [string, string] = Promise.all([signedAccessToken, signedRefreshToken])
+          const [accessToken, refreshToken] = Promise.all([signedAccessToken, signedRefreshToken]) as any
           resolve({ accessToken, refreshToken })
         } else {
           throw new Error('Please login again')
