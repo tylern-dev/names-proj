@@ -22,6 +22,7 @@ export default async (req: Request, res: Response) => {
 
     if (!isPasswordValid) return res.status(401).json({ message: 'Invalid username or password' })
 
+    // TODO: we should add capabilities in the token
     const accessToken = await signAccessToken({ userId: user.id, role: user.role })
     const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
 
