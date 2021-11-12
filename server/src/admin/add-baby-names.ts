@@ -90,3 +90,9 @@ const addBulkNames = async (transformedNames: Array<Name>) =>
         })
     )
   )
+
+/*
+        For some reason, this is working fine on the mac. I have added feature flags to the schema.prisma file and reverted the package.json prisma version to 2.30.0.
+        I also remove the cookie checker and authentication middleware. I was able to add 3 years with names.
+
+  */
