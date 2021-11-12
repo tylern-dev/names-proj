@@ -44,7 +44,7 @@
     "jest": "^27.0.6",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
-    "prisma": "^3.4.1",
+    "prisma": "^3.1.1",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
@@ -55,7 +55,7 @@
     "@graphql-tools/schema": "^7.1.5",
     "@graphql-tools/stitch": "^7.5.3",
     "@graphql-tools/wrap": "^7.0.8",
-    "@prisma/client": "^3.4.1",
+    "@prisma/client": "^3.1.1",
     "apollo-server-express": "^3.3.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",

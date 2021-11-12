@@ -45,24 +45,22 @@ const checkCookie = (cookie: CookieMap): Promise<TokenMap> => {
     verify(token, REFRESH_TOKEN_SECRET, async (err, decoded) => {
       if (err) reject(err)
       if (decoded) {
-        const jti = decoded.jti
-        const jtiFromDb = await client.refreshTokens.findFirst({
-          where: {
-            jti: jti,
-          },
-        })
-        if (jtiFromDb.validToken) {
-          const user = await client.user.findUnique({
-            where: { id: jtiFromDb.userId },
-            select: { id: true, role: true },
-          })
-          const signedAccessToken = signAccessToken({ userId: user.id, role: user.role })
-          const signedRefreshToken = signRefreshToken({ userId: user.id })
-          const [accessToken, refreshToken] = Promise.all([signedAccessToken, signedRefreshToken]) as any
-          resolve({ accessToken, refreshToken })
-        } else {
-          throw new Error('Please login again')
-        }
+        //         // const jti = decoded.jti
+        //         // const jtiFromDb = await client.refreshTokens.findFirst({
+        //         //   where: {
+        //         //     jti: jti,
+        //         //   },
+        //         // })
+        // const user = await client.user.findUnique({
+        //   where: { id: decoded. },
+        //   select: { id: true, role: true },
+        // })
+        //           const signedAccessToken = signAccessToken({ userId: user.id, role: user.role })
+        //           const signedRefreshToken = signRefreshToken({ userId: user.id })
+        //           const [accessToken, refreshToken] = Promise.all([signedAccessToken, signedRefreshToken]) as any
+        //           resolve({ accessToken, refreshToken })
+      } else {
+        throw new Error('Please login again')
       }
     })
   })

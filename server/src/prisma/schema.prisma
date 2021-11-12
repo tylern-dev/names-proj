@@ -71,7 +71,7 @@ model userProfile {
   bio     String?
   guestOf project[]
   user    user      @relation(fields: [userId], references: [id])
-  userId  String
+  userId  String    @unique
 }
 
 model project {
@@ -128,13 +128,13 @@ model projectInvite {
   updatedAt    DateTime  @updatedAt
 }
 
-model refreshTokens {
-  id         Int     @id @default(autoincrement())
-  userId     String?
-  jti        String?
-  exp        Int?
-  validToken Boolean @default(true)
-}
+// model refreshTokens {
+//   id         Int     @id @default(autoincrement())
+//   userId     String?
+//   jti        String?
+//   exp        Int?
+//   validToken Boolean @default(true)
+// }
 
 enum sex {
   M
