@@ -35,20 +35,6 @@ const resolvers = {
         where: { name: titleCaseName },
       })
     },
-    //TODO: figure out best way to sort and filter based on rank
-    // I removed the cursor and am just using take and skip
-    namesByYear: async (
-      parent: any,
-      { skip = 0, take = 5, sex, year, orderByRank = 'asc' }: NamesByYearArgs,
-      { models }: Context
-    ) =>
-      await models.prisma.popularity.findMany({
-        skip,
-        take,
-        where: { year: year, name: { sex: sex } },
-        orderBy: { rank: orderByRank },
-        include: { name: true },
-      }),
 
     names: async (parent: any, { take = 10, skip = 0, sex, orderByName = 'asc' }: NamesArgs, { models }: Context) => {
       const names = await models.prisma.name.findMany({
@@ -63,9 +49,6 @@ const resolvers = {
         names,
       }
     },
-  },
-  Mutation: {
-    addName: () => true,
   },
   Name: {
     popularity: async (parent: any, args: any, { models }: Context) =>
