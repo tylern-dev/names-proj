@@ -4,12 +4,13 @@ import { extractNames } from '../utils/extract-names'
 import { Name, transformNames } from '../utils/transform-names'
 import { Request, Response } from 'express'
 import { extractYear } from './utils/extract-year'
+import prismaClient from '../../client'
 
-const prismaClient = new PrismaClient()
+// const prismaClient = new PrismaClient()
 export const addBabyNames = async (req: Request, res: Response) => {
   // eventaully get the text file from the front end
   // const file = req.body
-  const filepath = '/home/tyler/developer/proj-names/raw_name_data/yob2020.txt'
+  const filepath = '/Users/TylerNegro/Developer/projects/names-proj/raw_name_data/yob2014.txt'
   fs.readFile(filepath, 'utf8', async (err, data) => {
     if (err) {
       console.log(err)
@@ -35,20 +36,24 @@ export const addBabyNames = async (req: Request, res: Response) => {
           filepath,
         })
       }
+      await addBulkNames(transformedNames?.fNames)
+      await addBulkNames(transformedNames?.mNames)
+      console.log(transformedNames.fNames.length)
 
-      await addBulkNames(transformedNames.fNames)
-      await addBulkNames(transformedNames.mNames)
-
-      res.status(200).json({ message: 'Loaded names succefully!' })
-      prismaClient.$disconnect
+      res.status(200).json({ message: 'Loaded names succefully!', yearLoaded: year })
+      prismaClient.$disconnect()
     } catch (e: any) {
       res.status(500)
-      prismaClient.$disconnect
+      prismaClient.$disconnect()
       throw new Error(e)
     }
   })
   // const extractedNames = extractNames()
 }
+
+// const addBulkNames = async (transformedNames: Array<Name>) =>{
+//   await prismaClient.tra
+// }
 
 const addBulkNames = async (transformedNames: Array<Name>) =>
   await prismaClient.$transaction(
@@ -85,3 +90,11 @@ const addBulkNames = async (transformedNames: Array<Name>) =>
         })
     )
   )
+
+/*
+        For some reason, this is working fine on the mac. I have added feature flags to the schema.prisma file and reverted the package.json prisma version to 2.30.0.
+        I also remove the cookie checker and authentication middleware. I was able to add 3 years with names.
+
+        remove pool thing from postgres url
+
+  */

@@ -4,10 +4,14 @@ import { Request, Response } from 'express'
 import { getPassword } from '../helpers/get-password'
 import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { getUser } from './get-user'
+// import { addRefreshTokenToDb } from '../helpers/refresh-token'
+
+const cookieOptions = {
+  httpOnly: true,
+}
 
 export default async (req: Request, res: Response) => {
   const { email, password } = req.body
-
   if (!email && !password) return res.status(401).json({ message: 'No email or password were supplied' })
 
   try {
@@ -22,14 +26,18 @@ export default async (req: Request, res: Response) => {
 
     if (!isPasswordValid) return res.status(401).json({ message: 'Invalid username or password' })
 
+    // TODO: we should add capabilities in the token
     const accessToken = await signAccessToken({ userId: user.id, role: user.role })
     const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
 
-    res.cookie('token', refreshToken, { httpOnly: true })
+    // await addRefreshTokenToDb({ token: refreshToken, userId })
 
-    return res.json({ status: true, message: 'Login successful', data: { accessToken } })
+    res.cookie('refresh-token', refreshToken, cookieOptions)
+    res.set('token', accessToken)
+
+    return res.json({ success: true, message: 'Login successful' })
   } catch (e: any) {
-    res.sendStatus(401)
+    res.sendStatus(401).json({ success: false })
     throw new Error(e)
   }
 }

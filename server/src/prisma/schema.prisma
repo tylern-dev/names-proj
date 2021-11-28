@@ -47,6 +47,7 @@ model user {
   lastName                 String?
   role                     role         @default(USER)
   userProfile              userProfile?
+  // capabilities             capabilities
   acceptTermsAndConditions Boolean      @default(false)
   active                   Boolean      @default(true)
   createdAt                DateTime     @default(now())
@@ -66,12 +67,16 @@ model authentication {
   userId   String
 }
 
+// model capabilities {
+//   id Int @id @default(autoincrement())
+// }
+
 model userProfile {
   id      String    @id @default(uuid())
   bio     String?
   guestOf project[]
   user    user      @relation(fields: [userId], references: [id])
-  userId  String
+  userId  String    @unique
 }
 
 model project {
@@ -127,6 +132,14 @@ model projectInvite {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
+
+// model refreshTokens {
+//   id         Int     @id @default(autoincrement())
+//   userId     String?
+//   jti        String?
+//   exp        Int?
+//   validToken Boolean @default(true)
+// }
 
 enum sex {
   M
