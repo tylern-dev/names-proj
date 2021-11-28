@@ -6,7 +6,6 @@ const typeDef = gql`
   }
 
   extend type Mutation {
-    createProject(projectName: String): Project
     activateProject(projectId: ID): Project
     deactivateProject(projectId: ID): Project
     addNameToProject(projectId: String, nameId: String): BabyName

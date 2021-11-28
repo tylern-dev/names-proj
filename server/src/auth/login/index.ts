@@ -6,6 +6,10 @@ import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { getUser } from './get-user'
 // import { addRefreshTokenToDb } from '../helpers/refresh-token'
 
+const cookieOptions = {
+  httpOnly: true,
+}
+
 export default async (req: Request, res: Response) => {
   const { email, password } = req.body
   if (!email && !password) return res.status(401).json({ message: 'No email or password were supplied' })
@@ -28,12 +32,12 @@ export default async (req: Request, res: Response) => {
 
     // await addRefreshTokenToDb({ token: refreshToken, userId })
 
-    res.cookie('x-refresh-token', refreshToken, { httpOnly: true })
-    res.set('x-token', accessToken)
-
-    return res.json({ status: true, message: 'Login successful' })
+    res.cookie('refresh-token', refreshToken, cookieOptions)
+    res.set('token', accessToken)
+    console.log({ accessToken, refreshToken })
+    return res.json({ success: true, message: 'Login successful' })
   } catch (e: any) {
-    res.sendStatus(401)
+    res.sendStatus(401).json({ success: false })
     throw new Error(e)
   }
 }

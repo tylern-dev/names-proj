@@ -11,24 +11,6 @@ const resolvers = {
     },
   },
   Mutation: {
-    createProject: async (
-      parent: any,
-      { id, projectName }: { id: string; projectName: string },
-      {
-        models,
-        user: {
-          payload: { userId },
-        },
-      }: Context
-    ) => {
-      const project = await models.prisma.project.create({
-        data: {
-          ownerId: userId,
-          projectName: projectName,
-        },
-      })
-      return project
-    },
     deactivateProject: async (parent: any, { projectId }: any, { models, user }: Context) => {
       const isProjectOwner = getIsProjectOwner(projectId, { models, user })
       if (isProjectOwner) {

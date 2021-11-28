@@ -1,3 +1,4 @@
+import { gql } from 'apollo-server-express'
 import { toTitleCase } from '../utils/convert-title-case'
 import { Context, OrderBy } from '../../types/common'
 import { sex } from '@prisma/client'
@@ -15,12 +16,29 @@ interface NamesArgs {
   sex?: sex
 }
 
-interface NamesByYearArgs extends NamesArgs {
-  year: number
-  orderByRank?: OrderBy
-}
+export const NameTypeDef = gql`
+  extend type Query {
+    name(name: String, nameId: String): [Name]
+    names(skip: Int, take: Int, sex: Sex, orderByName: OrderBy): Names
+  }
 
-const resolvers = {
+  type Names {
+    names: [Name]
+    # cursor: Int
+  }
+
+  enum Sex {
+    M
+    F
+  }
+
+  enum OrderBy {
+    asc
+    desc
+  }
+`
+
+export const resolvers = {
   Query: {
     name: async (parent: any, { name, nameId }: NameArgs, { models }: Context) => {
       const titleCaseName = toTitleCase(name).trim()
@@ -55,4 +73,3 @@ const resolvers = {
       await models.prisma.name.findUnique({ where: { nameId: { name: parent.name, sex: parent.sex } } }).popularity(),
   },
 }
-export default resolvers
