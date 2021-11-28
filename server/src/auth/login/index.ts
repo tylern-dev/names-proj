@@ -34,7 +34,7 @@ export default async (req: Request, res: Response) => {
 
     res.cookie('refresh-token', refreshToken, cookieOptions)
     res.set('token', accessToken)
-    console.log({ accessToken, refreshToken })
+
     return res.json({ success: true, message: 'Login successful' })
   } catch (e: any) {
     res.sendStatus(401).json({ success: false })
