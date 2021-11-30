@@ -19,6 +19,8 @@ export default shield({
   Query: {
     name: allow,
     names: isAuthenticated,
+    projects: isAuthenticated,
+    project: isAuthenticated,
     '*': deny,
   },
   Mutation: {
