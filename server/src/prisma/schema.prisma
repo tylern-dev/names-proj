@@ -21,7 +21,7 @@ model name {
   updatedAt       DateTime          @updatedAt
   projectBabyName projectBabyName[]
 
-
+  // this may be what is causing the upgrade to fail
   @@unique(fields: [name, sex], name: "nameId")
 }
 

@@ -31,10 +31,8 @@ export const resolvers = {
   },
 
   Project: {
-    babyName: (root: any, args: any, { models }: Context) => {
-      console.log('here')
-      models.prisma.project.findFirst({ where: { id: root.id } }).babyName()
-    },
+    babyName: (root: any, args: any, { models }: Context) =>
+      models.prisma.project.findFirst({ where: { id: root.id } }).babyName(),
   },
   BabyName: {
     name: async (root: any, args: any, { models }: Context) =>

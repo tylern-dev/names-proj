@@ -11,6 +11,7 @@ import { Projects, resolvers as ProjectsResolver } from './queries/projects'
 import { Project, resolvers as ProjectResolvers } from './queries/project'
 import { DeactivateProject, resolvers as DeactivateProjectResolvers } from './mutations/deactivate-project'
 import { ActivateProject, resolvers as ActivateProjectResolvers } from './mutations/activate-project'
+import { AddNameToProject, resovers as AddNameToProjectResolvers } from './mutations/add-name-to-project'
 import typeDefs from './type-defs'
 
 const initialTypeDefs = gql`
@@ -39,6 +40,7 @@ const resolvers = [
   ProjectResolvers,
   ActivateProjectResolvers,
   DeactivateProjectResolvers,
+  AddNameToProjectResolvers,
 ]
 
 const scalarTypes = [DateTimeTypeDefinition]
@@ -55,6 +57,7 @@ const types = [
   Project,
   DeactivateProject,
   ActivateProject,
+  AddNameToProject,
   ...scalarTypes,
   ...typeDefs,
 ]
