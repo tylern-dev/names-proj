@@ -1,9 +1,16 @@
-import { Context } from 'src/types/common'
+import { gql } from 'apollo-server-express'
+import { Context } from '../../types/common'
 import { getIsOwnerOfProjectName } from '../common/get-project-names'
-const resolvers = {
+export const DeleteNameFromProject = gql`
+  extend type Mutation {
+    deleteNameFromProject(projectBabyNameId: ID): Void
+  }
+`
+
+export const resolvers = {
   Mutation: {
     deleteNameFromProject: async (
-      parent: any,
+      parent,
       { projectBabyNameId }: { projectBabyNameId: string },
       { models, user }: Context
     ) => {
@@ -17,5 +24,3 @@ const resolvers = {
     },
   },
 }
-
-export default resolvers

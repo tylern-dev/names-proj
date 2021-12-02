@@ -1,7 +1,6 @@
 import { gql } from 'apollo-server-express'
 import { makeExecutableSchema } from '@graphql-tools/schema'
-import { DateTimeTypeDefinition } from 'graphql-scalars'
-import { resolvers as projectResolvers, typeDefs as projectTypeDefs } from './projects'
+import { DateTimeTypeDefinition, VoidTypeDefinition } from 'graphql-scalars'
 import { ratingTypeDefs, ratingResolvers } from './ratings'
 import { inviteTypeDef, inviteResolvers } from './project-invite'
 import { NamesByYear, resolvers as NamesByYearResolver } from './queries/names-by-year'
@@ -12,6 +11,7 @@ import { Project, resolvers as ProjectResolvers } from './queries/project'
 import { DeactivateProject, resolvers as DeactivateProjectResolvers } from './mutations/deactivate-project'
 import { ActivateProject, resolvers as ActivateProjectResolvers } from './mutations/activate-project'
 import { AddNameToProject, resovers as AddNameToProjectResolvers } from './mutations/add-name-to-project'
+import { DeleteNameFromProject, resolvers as DeleteNameResolvers } from './mutations/delete-name-from-project'
 import typeDefs from './type-defs'
 
 const initialTypeDefs = gql`
@@ -30,7 +30,6 @@ const initialTypeDefs = gql`
 `
 
 const resolvers = [
-  projectResolvers,
   ratingResolvers,
   inviteResolvers,
   NamesByYearResolver,
@@ -41,13 +40,13 @@ const resolvers = [
   ActivateProjectResolvers,
   DeactivateProjectResolvers,
   AddNameToProjectResolvers,
+  DeleteNameResolvers,
 ]
 
-const scalarTypes = [DateTimeTypeDefinition]
+const scalarTypes = [DateTimeTypeDefinition, VoidTypeDefinition]
 
 const types = [
   initialTypeDefs,
-  projectTypeDefs,
   ratingTypeDefs,
   inviteTypeDef,
   NamesByYear,
@@ -58,6 +57,7 @@ const types = [
   DeactivateProject,
   ActivateProject,
   AddNameToProject,
+  DeleteNameFromProject,
   ...scalarTypes,
   ...typeDefs,
 ]
