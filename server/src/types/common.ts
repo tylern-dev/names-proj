@@ -12,8 +12,8 @@ export interface Model {
   prisma: PrismaClient
 }
 export interface Context {
-  models: Model
-  user: JwtPayload
+  models?: Model
+  user?: JwtPayload
 }
 
 export type OrderBy = 'asc' | 'desc'
