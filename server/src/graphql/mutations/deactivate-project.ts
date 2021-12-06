@@ -1,5 +1,6 @@
-import { gql, ApolloError } from 'apollo-server-express'
+import { gql } from 'apollo-server-express'
 import { Context } from '../../types/common'
+import { apolloError } from '../common/apollo-error'
 import { getIsProjectOwner } from '../common/get-projects-for-user'
 
 export const DeactivateProject = gql`
@@ -19,7 +20,7 @@ export const resolvers = {
 
         return { isActive }
       } else {
-        throw new ApolloError('Not authorized')
+        apolloError('Not authorized')
       }
     },
   },

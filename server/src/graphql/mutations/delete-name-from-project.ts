@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express'
 import { Context } from '../../types/common'
 import { getIsOwnerOfProjectName } from '../common/get-project-names'
+
 export const DeleteNameFromProject = gql`
   extend type Mutation {
     deleteNameFromProject(projectBabyNameId: ID): Void

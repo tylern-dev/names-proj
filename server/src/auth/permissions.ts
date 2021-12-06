@@ -32,6 +32,7 @@ export default shield(
       addNameToProject: isAuthenticated,
       activateProject: or(isAuthenticated, isAdmin),
       deactivateProject: or(isAuthenticated, isAdmin),
+      createRating: isAuthenticated,
       '*': deny,
     },
   },
