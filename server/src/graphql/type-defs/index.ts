@@ -5,7 +5,7 @@ import { BabyName } from './baby-name'
 import { Rating } from './Rating'
 import { User } from './user'
 import { ProjectStatus } from './project-status'
-
-const typeDefs = [Name, Popularity, Project, BabyName, Rating, User, ProjectStatus]
+import { Invite } from './invite'
+const typeDefs = [Name, Popularity, Project, BabyName, Rating, User, ProjectStatus, Invite]
 
 export default typeDefs
