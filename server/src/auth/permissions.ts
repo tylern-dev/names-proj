@@ -25,6 +25,7 @@ export default shield(
       namesByYear: allow,
       projects: isAuthenticated,
       project: isAuthenticated,
+      getProjectInvites: isAuthenticated,
       '*': deny,
     },
     Mutation: {
@@ -33,6 +34,9 @@ export default shield(
       activateProject: or(isAuthenticated, isAdmin),
       deactivateProject: or(isAuthenticated, isAdmin),
       createRating: isAuthenticated,
+      createInvite: isAuthenticated,
+      acceptInvite: allow,
+      revokeInvite: isAuthenticated,
       '*': deny,
     },
   },

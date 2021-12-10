@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { DateTimeTypeDefinition, VoidTypeDefinition } from 'graphql-scalars'
 // import { ratingTypeDefs, ratingResolvers } from './ratings'
-import { inviteTypeDef, inviteResolvers } from './project-invite'
+import typeDefs from './type-defs'
 import { NamesByYear, resolvers as NamesByYearResolver } from './queries/names-by-year'
 import { CreateProject, resolvers as CreateProjectResolver } from './mutations/create-project'
 import { NameTypeDef, resolvers as NameResolver } from './queries/name'
@@ -13,7 +13,10 @@ import { ActivateProject, resolvers as ActivateProjectResolvers } from './mutati
 import { AddNameToProject, resovers as AddNameToProjectResolvers } from './mutations/add-name-to-project'
 import { DeleteNameFromProject, resolvers as DeleteNameResolvers } from './mutations/delete-name-from-project'
 import { CreateRating, resolvers as CreateRatingResolvers } from './mutations/create-rating'
-import typeDefs from './type-defs'
+import { CreateInvite, resolvers as CreateInviteResolvers } from './mutations/create-invite'
+import { AcceptInvite, resolvers as AcceptInviteResolvers } from './mutations/accept-invite'
+import { RevokeInvite, resolvers as RevokeInviteResolvers } from './mutations/revoke-invite'
+import { GetProjectInvites, resolvers as ProjectInvitesResolvers } from './queries/get-project-invites'
 
 const initialTypeDefs = gql`
   type Query {
@@ -31,8 +34,6 @@ const initialTypeDefs = gql`
 `
 
 const resolvers = [
-  // ratingResolvers,
-  inviteResolvers,
   NamesByYearResolver,
   NameResolver,
   CreateProjectResolver,
@@ -43,14 +44,16 @@ const resolvers = [
   AddNameToProjectResolvers,
   DeleteNameResolvers,
   CreateRatingResolvers,
+  CreateInviteResolvers,
+  AcceptInviteResolvers,
+  RevokeInviteResolvers,
+  ProjectInvitesResolvers,
 ]
 
 const scalarTypes = [DateTimeTypeDefinition, VoidTypeDefinition]
 
 const types = [
   initialTypeDefs,
-  // ratingTypeDefs,
-  inviteTypeDef,
   NamesByYear,
   NameTypeDef,
   CreateProject,
@@ -61,6 +64,10 @@ const types = [
   AddNameToProject,
   DeleteNameFromProject,
   CreateRating,
+  CreateInvite,
+  AcceptInvite,
+  RevokeInvite,
+  GetProjectInvites,
   ...scalarTypes,
   ...typeDefs,
 ]

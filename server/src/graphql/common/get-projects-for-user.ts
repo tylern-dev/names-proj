@@ -2,6 +2,7 @@ import { project, userProfile } from '.prisma/client'
 import { ID } from 'graphql-modules/shared/types'
 import { Context } from 'src/types/common'
 import prisma from '../../../client'
+import { apolloError } from './apollo-error'
 
 const getProject = async (projectId: ID): Promise<project> => {
   return await prisma.project.findFirst({ where: { id: projectId } })
@@ -12,8 +13,12 @@ const getProjectGuests = async (projectId: ID): Promise<userProfile[]> => {
 }
 
 export const getIsProjectOwner = async (projectId: ID, { user }: Context): Promise<boolean> => {
-  const project = await getProject(projectId)
-  return project.ownerId === user.payload.userId
+  try {
+    const project = await getProject(projectId)
+    return project.ownerId === user.payload.userId
+  } catch (e) {
+    apolloError(e)
+  }
 }
 
 export const getIsGuestOfProject = async (projectId: ID, { user }: Context): Promise<boolean> => {
