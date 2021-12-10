@@ -8,7 +8,8 @@ export const GetProjectInvites = gql`
   }
 
   type ProjectInvite {
-    id: String
+    # id: String
+    inviteCode: String
     email: String
     accepted: Boolean
     acceptedDate: DateTime
@@ -24,6 +25,8 @@ export const resolvers = {
       const isProjectOwner = await getIsProjectOwner(projectId, { user })
       if (isProjectOwner) {
         // do work here for getting all invites for project
+        const invites = await models.prisma.projectInvite.findMany({ where: { projectId } })
+        return invites
       }
     },
   },
