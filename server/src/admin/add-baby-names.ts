@@ -10,7 +10,7 @@ import prismaClient from '../../client'
 export const addBabyNames = async (req: Request, res: Response) => {
   // eventaully get the text file from the front end
   // const file = req.body
-  const filepath = '/Users/TylerNegro/Developer/projects/names-proj/raw_name_data/yob2018.txt'
+  const filepath = '/home/tyler/developer/proj-names/raw_name_data/yob2020.txt'
   fs.readFile(filepath, 'utf8', async (err, data) => {
     if (err) {
       console.log(err)
@@ -19,7 +19,6 @@ export const addBabyNames = async (req: Request, res: Response) => {
 
     const extractedNames = extractNames(data, filepath)
     const transformedNames = transformNames(extractedNames)
-    console.log(transformedNames.fNames.slice(0, 20))
     try {
       //find if the data has already been added
       const year = extractYear(filepath)
@@ -36,12 +35,16 @@ export const addBabyNames = async (req: Request, res: Response) => {
           filepath,
         })
       }
-      await addBulkNames(transformedNames?.fNames)
-      await addBulkNames(transformedNames?.mNames)
-      console.log(transformedNames.fNames.length)
+
+      console.log('girl names', transformedNames?.fNames.length)
+      await handleBulkBatching(transformedNames?.fNames)
+      console.log('boy names', transformedNames?.mNames.length)
+      await handleBulkBatching(transformedNames?.mNames)
+      // await addBulkNames(transformedNames?.fNames.slice(0, 2000))
+      // await addBulkNames(transformedNames?.mNames.splice(0,10))
 
       res.status(200).json({ message: 'Loaded names succefully!', yearLoaded: year })
-      prismaClient.$disconnect()
+      // prismaClient.$disconnect()
     } catch (e: any) {
       res.status(500)
       prismaClient.$disconnect()
@@ -54,6 +57,23 @@ export const addBabyNames = async (req: Request, res: Response) => {
 // const addBulkNames = async (transformedNames: Array<Name>) =>{
 //   await prismaClient.tra
 // }
+
+// Note*
+// This function is needed to handle batching. If I don't batch, then the names don't load. They used to load fine usine `addBulkNames()` directly with Prisma 2.30.0, but after upgrading to 3.0.2^, it has now broke.
+const handleBulkBatching = async (names: Array<Name>): Promise<void> => {
+  const batchLimit = 2000
+  let batch = 2000
+  // let startingSlice = 0
+  try {
+    for (let i = 0; i <= names.length; i += batchLimit) {
+      await addBulkNames(names.slice(i, batch))
+      batch += batchLimit
+    }
+  } catch (e) {
+    console.error(e)
+  }
+  return Promise.resolve()
+}
 
 const addBulkNames = async (transformedNames: Array<Name>) =>
   await prismaClient.$transaction(
