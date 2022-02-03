@@ -1,5 +1,0 @@
-{
-  "presets": [
-   "@babel/preset-react" // snowpack can't build using .js for react files if this isn't here
-]
-}
