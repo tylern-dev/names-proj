@@ -77,3 +77,7 @@ Docker command
 port in use:
 `sudo lsof -i :3001`
 `kill -9 <PID>`
+
+## VITE Build pack
+
+[Vite](https://css-tricks.com/adding-vite-to-your-existing-web-app/)

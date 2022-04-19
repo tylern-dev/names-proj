@@ -28,3 +28,5 @@ chrome-user-data
 dist
 raw_name_data
 server/src/generated
+
+baby-names-service-account.json

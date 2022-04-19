@@ -1,42 +1,38 @@
-import { hash } from 'bcrypt'
 import { Response, Request } from 'express'
+import { auth } from 'firebase-admin'
 import { findUser } from '../helpers/find-user'
 import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { newUser } from './new-user'
 
-type UserData = {
+interface UserData {
   firstName: string
   lastName: string
   email: string
-  password: string
+  authId: string
 }
 
 export default async (req: Request, res: Response): Promise<Response> => {
-  const { email, password, firstName, lastName } = req.body
-  if (!(email && password)) {
-    res.status(400).send('All input is required')
-  }
-
+  const { email, firstName, lastName, idToken } = req.body
+  const checkRevokedToken = true
   try {
-    const hashedPassword = await hash(password, 12)
-    if (!hashedPassword) throw new Error('Error building password hash')
-
+    const verifiedToken = await auth().verifyIdToken(idToken, checkRevokedToken)
+    const uid = verifiedToken.uid
     const userData: UserData = {
       firstName,
       lastName,
       email,
-      password: hashedPassword,
+      authId: uid,
     }
-    const doesUserExist = await findUser(email)
+    const doesUserExist = await findUser(verifiedToken.uid)
     if (doesUserExist) {
       return res.status(409).json({ message: 'User already exists' })
     }
     const user = await newUser(userData)
 
-    const accessToken = await signAccessToken({ userId: user.id, role: user.role })
-    const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
-    res.cookie('token', refreshToken, { httpOnly: true })
-    res.json({ status: true, message: 'login success', data: { accessToken } })
+    // const accessToken = await signAccessToken({ userId: user.id, role: user.role })
+    // const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
+    // res.cookie('token', refreshToken, { httpOnly: true })
+    res.json({ status: true, message: 'register success' })
   } catch (e: any) {
     res.status(500)
     throw new Error(e.data)
