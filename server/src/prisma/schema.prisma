@@ -13,7 +13,6 @@ generator client {
 
 model name {
   id              String            @id @default(uuid())
-  cursorId        Int               @unique @default(autoincrement())
   name            String
   sex             sex
   // simliarNames    String[]

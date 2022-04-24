@@ -21,7 +21,7 @@ export const GetProjectInvites = gql`
 
 export const resolvers = {
   Query: {
-    getProjectInvites: async (parent, { projectId }: { projectId: string }, { models, user }: Context) => {
+    getProjectInvites: async (parent: any, { projectId }: { projectId: string }, { models, user }: Context) => {
       const isProjectOwner = await getIsProjectOwner(projectId, { user })
       if (isProjectOwner) {
         // do work here for getting all invites for project

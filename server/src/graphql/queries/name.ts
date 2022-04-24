@@ -55,12 +55,13 @@ export const resolvers = {
     },
 
     names: async (parent: any, { take = 10, skip = 0, sex, orderByName = 'asc' }: NamesArgs, { models }: Context) => {
+      console.log('tst')
       const names = await models.prisma.name.findMany({
         take: take,
         skip: skip,
-        where: {
-          sex: sex,
-        },
+        // where: {
+        //   sex: sex,
+        // },
         orderBy: { name: orderByName },
       })
       return {

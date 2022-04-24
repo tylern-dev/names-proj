@@ -11,7 +11,7 @@ export const AddNameToProject = gql`
 export const resovers = {
   Mutation: {
     addNameToProject: async (
-      parent,
+      parent: any,
       { projectId, nameId }: { projectId: string; nameId: string },
       { models, user }: Context
     ) => {

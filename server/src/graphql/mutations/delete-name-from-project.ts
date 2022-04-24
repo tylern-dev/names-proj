@@ -11,7 +11,7 @@ export const DeleteNameFromProject = gql`
 export const resolvers = {
   Mutation: {
     deleteNameFromProject: async (
-      parent,
+      parent: any,
       { projectBabyNameId }: { projectBabyNameId: string },
       { models, user }: Context
     ) => {

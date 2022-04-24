@@ -24,7 +24,7 @@ app.use(json())
 app.use(cookieParser())
 app.use('/auth-api', authApi)
 app.use('/api/admin/', adminApi)
-app.use(handleAuthentication)
+// app.use(handleAuthentication)
 
 createApolloServer()
   .then(async (apolloServer: ApolloServer) => {
