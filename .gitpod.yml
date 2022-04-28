@@ -4,3 +4,4 @@ vscode:
     - prisma.prisma
     - esbenp.prettier-vscode
     - dbaeumer.vscode-eslint
+    - graphql.vscode-graphql

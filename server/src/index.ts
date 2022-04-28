@@ -1,8 +1,10 @@
+import path from 'path'
 import dotenv from 'dotenv'
 import chalk from 'chalk'
 import cors from 'cors'
 import { json } from 'body-parser'
 import express from 'express'
+import csrf from 'csurf'
 import { initializeApp, credential } from 'firebase-admin'
 import createApolloServer from './lib/create-apollo-server.js'
 import { ApolloServer } from 'apollo-server-express'
@@ -11,24 +13,44 @@ import expressJwt from 'express-jwt'
 import authApi from './auth'
 import adminApi from './admin'
 import { handleAuthentication } from './auth/middleware/authentication'
+import './lib/firebase-config'
 
 dotenv.config()
-import './lib/firebase-config'
 
 const { PORT, JWT_ACCESS_TOKEN_SECRET = '' } = process.env
 
 const app = express()
 
-app.use(cors())
+const csrfProtection = csrf({
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 3600, // 1-hour
+  },
+})
+app.use(cors({ origin: true }))
 app.use(json())
 app.use(cookieParser())
+process.env.NODE_ENV === 'production' && app.use(csrfProtection)
 app.use('/auth-api', authApi)
 app.use('/api/admin/', adminApi)
-// app.use(handleAuthentication)
+app.use(handleAuthentication)
+
+app.use(
+  '/',
+  (req, res, next) => {
+    process.env.NODE_ENV === 'production' && res.cookie('csrf-token', req.csrfToken())
+    next()
+  },
+  express.static(path.join(__dirname, '../../client/dist'))
+)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'))
+})
 
 createApolloServer()
   .then(async (apolloServer: ApolloServer) => {
-    apolloServer
     await apolloServer.start()
     apolloServer.applyMiddleware({
       app,

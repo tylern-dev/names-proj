@@ -10,7 +10,7 @@ import prismaClient from '../../client'
 export const addBabyNames = async (req: Request, res: Response) => {
   // eventaully get the text file from the front end
   // const file = req.body
-  const filepath = '/workspace/names-proj/raw_name_data/yob2017.txt'
+  const filepath = '/workspace/names-proj/raw_name_data/yob2020.txt'
   fs.readFile(filepath, 'utf8', async (err, data) => {
     if (err) {
       console.log(err)
