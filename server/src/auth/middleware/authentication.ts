@@ -1,28 +1,25 @@
-import { role } from '.prisma/client'
 import { NextFunction, Request, Response } from 'express'
-import { verify, decode } from 'jsonwebtoken'
-import client from '../../../client'
-import { signAccessToken, signRefreshToken } from '../utils/jwt'
-import { GUEST } from '../../consts'
-const { JWT_ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env
+import { auth } from 'firebase-admin'
 
-interface CookieMap {
-  'refresh-token': string
-}
+export const handleAuthentication = async (req: Request, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers
 
-interface User {
-  id: string
-  role: role
-}
+  if (!authorization) return res.status(401).send({ message: 'Unauthorized' })
 
-interface TokenMap {
-  accessToken: string
-  refreshToken: string
-  user: User
-}
+  if (!authorization.startsWith('Bearer')) return res.status(401).send({ message: 'Unauthorized' })
 
-export const handleAuthentication = (req: Request, res: Response, next: NextFunction) => {
-  const cookie = req.cookies.session
-  console.log(cookie)
-  next()
+  const split = authorization.split('Bearer ')
+  if (split.length !== 2) return res.status(401).send({ message: 'Unauthorized' })
+
+  const token = split[1]
+
+  try {
+    const decodedToken: auth.DecodedIdToken = await auth().verifyIdToken(token, true)
+    console.log('decodedToken', JSON.stringify(decodedToken))
+    res.locals = { ...res.locals, uid: decodedToken.uid, role: decodedToken?.role, email: decodedToken.email }
+    return next()
+  } catch (err) {
+    console.error(`${err.code} -  ${err.message}`)
+    return res.status(401).send({ message: 'Unauthorized' })
+  }
 }

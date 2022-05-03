@@ -1,16 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import ApolloGraphQLProvider from './apollo/config'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApolloGraphQLProvider>
+      <App />
+    </ApolloGraphQLProvider>
   </React.StrictMode>,
   document.getElementById('root'),
-);
+)
 
 // Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
 // Learn more: https://snowpack.dev/concepts/hot-module-replacement
 if (import.meta.hot) {
-  import.meta.hot.accept();
+  import.meta.hot.accept()
 }

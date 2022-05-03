@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { registerWithEmailPassword } from './authentication/register-password'
 import { loginWithEmailPassword } from './authentication/login-password'
+import Name from './pages/Name'
 const App = () => {
   const registerEmailRef = useRef<HTMLInputElement>(null)
   const registerPasswordRef = useRef<HTMLInputElement>(null)
@@ -50,6 +51,8 @@ const App = () => {
         <input type="text" placeholder="password" ref={loginPasswordRef} />
         <input type="submit" value="submit" />
       </form>
+
+      <Name />
     </>
   )
 }

@@ -1,40 +1,27 @@
 import { user } from '@prisma/client'
 import { Request, Response } from 'express'
 import { auth } from 'firebase-admin'
-import { createCookie } from '../utils/create-cookie'
-import { signAccessToken, signRefreshToken } from '../utils/jwt'
 import { getUser } from './get-user'
-// import { addRefreshTokenToDb } from '../helpers/refresh-token'
-
-const cookieOptions = {
-  httpOnly: true,
-}
 
 export default async (req: Request, res: Response) => {
   const idToken = req.body.idToken.toString()
 
   try {
-    const verifiedToken = await auth().verifyIdToken(idToken)
+    const checkRevoked = true
+    const verifiedToken = await auth().verifyIdToken(idToken, checkRevoked)
 
     const user: user = await getUser({ authId: verifiedToken.uid })
+    await auth().setCustomUserClaims(verifiedToken.uid, { role: user.role })
 
     if (!user) return res.status(404).send({ message: 'No valid user found' })
 
-    const { options, sessionCookie } = await createCookie(idToken)
+    const expiresIn = 60 * 60 * 24 * 5 * 1000
+    const options = { maxAge: expiresIn }
 
-    res.cookie('session', sessionCookie, options)
+    res.cookie('token', idToken, options)
     res.end(JSON.stringify({ status: 'success' }))
-
-    // // TODO: we should add capabilities in the token
-    // const accessToken = await signAccessToken({ userId: user.id, role: user.role })
-    // const refreshToken = await signRefreshToken({ userId: user.id, role: user.role })
-
-    // // await addRefreshTokenToDb({ token: refreshToken, userId })
-
-    // res.cookie('refresh-token', refreshToken, cookieOptions)
-    // res.set('token', accessToken)
-  } catch (e: any) {
-    res.sendStatus(401).json({ success: false })
-    throw new Error(e)
+  } catch (e) {
+    res.sendStatus(401).json({ success: false }).end()
+    console.error('Error in Login', e)
   }
 }
