@@ -1,5 +1,5 @@
-import React, { useState, useRef, FormEvent } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import React, { useRef, FormEvent } from 'react'
+import { useLazyQuery, gql } from '@apollo/client'
 
 const QUERY = gql`
   query Name($name: String) {
@@ -15,13 +15,13 @@ const QUERY = gql`
 `
 
 const Name = () => {
-  const [queryName, setQueryName] = useState('')
+  // const [queryName, setQueryName] = useState('')
   const nameRef = useRef<HTMLInputElement>(null)
-  const { data, loading } = useQuery(QUERY, { variables: { name: queryName } })
+  const [query] = useLazyQuery(QUERY)
 
   const handleGetName = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setQueryName(nameRef.current?.value || '')
+    query({ variables: { name: nameRef.current?.value || '' } })
   }
   return (
     <>
