@@ -1,10 +1,9 @@
 import {
   signInWithEmailAndPassword,
   setPersistence,
-  inMemoryPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth'
 import { auth } from './config'
-import axios from 'axios'
 import request from '../utils/request'
 
 export const loginWithEmailPassword = async ({
@@ -17,7 +16,7 @@ export const loginWithEmailPassword = async ({
   const forceRefreshToken = true
   try {
     //TODO: handle csrf
-    setPersistence(auth, inMemoryPersistence)
+    setPersistence(auth, browserLocalPersistence)
 
     const result = await signInWithEmailAndPassword(auth, email, password)
     const idToken = await result.user.getIdToken(forceRefreshToken)

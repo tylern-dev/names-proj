@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { Response, Request } from 'express'
 import { auth } from 'firebase-admin'
 import { findUser } from '../helpers/find-user'
@@ -9,10 +10,11 @@ interface UserData {
   lastName: string
   email: string
   authId: string
+  claims?: Prisma.JsonArray
 }
 
 export default async (req: Request, res: Response): Promise<Response> => {
-  const { email, firstName, lastName, idToken } = req.body
+  const { email, firstName, lastName, idToken, claims } = req.body
   const checkRevokedToken = true
   try {
     const verifiedToken = await auth().verifyIdToken(idToken, checkRevokedToken)
@@ -22,6 +24,7 @@ export default async (req: Request, res: Response): Promise<Response> => {
       lastName,
       email,
       authId: uid,
+      claims,
     }
     const doesUserExist = await findUser(verifiedToken.uid)
     if (doesUserExist) {
