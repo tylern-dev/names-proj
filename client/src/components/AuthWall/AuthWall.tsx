@@ -7,11 +7,9 @@ const AuthWall = ({ children }: { children: JSX.Element }) => {
   const location = useLocation()
   const { isAuthenticated } = useAuthContext()
 
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/login" state={{ from: location }} replace />
-  // }
-
-  console.log(isAuthenticated)
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
 
   return children
 }

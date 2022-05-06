@@ -1,5 +1,6 @@
 import React, { useRef, FormEvent } from 'react'
 import { useLazyQuery, gql } from '@apollo/client'
+import { logout } from '../authentication/logout'
 
 const QUERY = gql`
   query Name($name: String) {
@@ -25,6 +26,7 @@ const Name = () => {
   }
   return (
     <>
+      <button onClick={() => logout()}>sign out</button>
       <h2>Get Names</h2>
       <form onSubmit={handleGetName}>
         <input type="text" placeholder="name" ref={nameRef} />
