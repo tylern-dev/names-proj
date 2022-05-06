@@ -5,11 +5,9 @@ import cors from 'cors'
 import { json } from 'body-parser'
 import express from 'express'
 import csrf from 'csurf'
-import { initializeApp, credential } from 'firebase-admin'
 import createApolloServer from './lib/create-apollo-server.js'
 import { ApolloServer } from 'apollo-server-express'
 import cookieParser from 'cookie-parser'
-import expressJwt from 'express-jwt'
 import authApi from './auth'
 import adminApi from './admin'
 import { handleAuthentication } from './auth/middleware/authentication'
@@ -17,7 +15,7 @@ import './lib/firebase-config'
 
 dotenv.config()
 
-const { PORT, JWT_ACCESS_TOKEN_SECRET = '' } = process.env
+const { PORT } = process.env
 
 const app = express()
 

@@ -1,15 +1,13 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import App from './App'
-import ApolloGraphQLProvider from './apollo/config'
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container as HTMLElement)
+root.render(
   <React.StrictMode>
-    <ApolloGraphQLProvider>
-      <App />
-    </ApolloGraphQLProvider>
+    <App />
   </React.StrictMode>,
-  document.getElementById('root'),
 )
 
 // Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
