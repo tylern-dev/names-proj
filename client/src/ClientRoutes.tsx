@@ -1,15 +1,10 @@
 import React from 'react'
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import AuthWall from './components/AuthWall/AuthWall'
 import { useAuthContext } from './hooks/AuthProvider'
+import PrivateRoutes from './pages/PrivateRoutes'
 import Login from './pages/Login/Login'
-import Name from './pages/Name'
+
 const ClientRoutes = () => {
   const { loading } = useAuthContext()
   const location = useLocation()
@@ -23,10 +18,10 @@ const ClientRoutes = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route
-        path="/dashboard"
+        path="/dashboard/*"
         element={
           <AuthWall>
-            <Name />
+            <PrivateRoutes />
           </AuthWall>
         }
       />
