@@ -15,10 +15,7 @@ export default async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).send({ message: 'No valid user found' })
 
-    const expiresIn = 60 * 60 * 24 * 5 * 1000
-    const options = { maxAge: expiresIn }
-
-    res.cookie('token', idToken, options)
+    res.cookie('user', idToken)
     res.end(JSON.stringify({ status: 'success' }))
   } catch (e) {
     res.sendStatus(401).json({ success: false }).end()

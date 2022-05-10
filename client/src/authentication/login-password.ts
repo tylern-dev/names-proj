@@ -15,12 +15,11 @@ export const loginWithEmailPassword = async ({
 }) => {
   const forceRefreshToken = true
   try {
-    //TODO: handle csrf
     setPersistence(auth, browserLocalPersistence)
 
     const result = await signInWithEmailAndPassword(auth, email, password)
     const idToken = await result.user.getIdToken(forceRefreshToken)
-    await request({
+    return await request({
       url: 'auth-api/login',
       method: 'POST',
       data: { idToken },

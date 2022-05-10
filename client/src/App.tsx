@@ -7,9 +7,9 @@ import ClientRoutes from './ClientRoutes'
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <ApolloGraphQLProvider>{children}</ApolloGraphQLProvider>
-      </AuthProvider>
+      <ApolloGraphQLProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </ApolloGraphQLProvider>
     </BrowserRouter>
   )
 }
