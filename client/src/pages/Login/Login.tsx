@@ -1,7 +1,7 @@
-import { useAuthContext } from 'src/hooks/AuthProvider'
+import { useAuthContext } from '../../hooks/AuthProvider'
 import React, { useRef } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { loginWithEmailPassword } from 'src/authentication/login-password'
+import { loginWithEmailPassword } from '../../authentication/login-password'
 
 const Login = () => {
   const { isAuthenticated, handleSetIsAuthenticated } = useAuthContext()
@@ -30,8 +30,18 @@ const Login = () => {
     <>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <input type="text" placeholder="email" ref={loginEmailRef} />
-        <input type="text" placeholder="password" ref={loginPasswordRef} />
+        <input
+          type="text"
+          placeholder="email"
+          name="email"
+          ref={loginEmailRef}
+        />
+        <input
+          type="text"
+          placeholder="password"
+          name="password"
+          ref={loginPasswordRef}
+        />
         <input type="submit" value="submit" />
       </form>
     </>

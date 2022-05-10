@@ -10,7 +10,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../authentication/config'
 
 interface AuthContext {
-  isAuthenticated?: boolean
+  isAuthenticated: boolean
   handleSetIsAuthenticated: () => void
   handleSignOut: () => void
   loading: boolean
@@ -18,6 +18,7 @@ interface AuthContext {
 
 const AuthContext = createContext<AuthContext>({
   loading: true,
+  isAuthenticated: false,
   handleSetIsAuthenticated: () => undefined,
   handleSignOut: () => undefined,
 })

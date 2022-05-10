@@ -6,9 +6,7 @@ export default defineConfig({
   plugins: [react()],
   envPrefix: 'CLIENT',
   resolve: {
-    alias: {
-      src: path.resolve('src/'),
-    },
+    alias: [{find: 'src', replacement: path.resolve(path.resolve(__dirname), 'src')}],
   },
   server: {
     proxy: {
