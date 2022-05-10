@@ -3,6 +3,8 @@ import React, { useRef } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { loginWithEmailPassword } from '../../authentication/login-password'
 
+// TODO: add nprogress.js for the loading bar at the top
+
 const Login = () => {
   const { isAuthenticated, handleSetIsAuthenticated } = useAuthContext()
   const navigate = useNavigate()
