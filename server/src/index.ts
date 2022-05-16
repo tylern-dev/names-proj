@@ -32,7 +32,7 @@ app.use(cookieParser())
 process.env.NODE_ENV === 'production' && app.use(csrfProtection)
 app.use('/auth-api', authApi)
 app.use('/api/admin/', adminApi)
-app.use(handleAuthentication)
+// app.use(handleAuthentication)
 
 app.use(
   '/',

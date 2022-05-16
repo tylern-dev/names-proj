@@ -4,9 +4,11 @@ import AuthWall from './components/AuthWall/AuthWall'
 import { useAuthContext } from './hooks/AuthProvider'
 import PrivateRoutes from './pages/PrivateRoutes'
 import Login from './pages/Login/Login'
+import Navbar from './components/Navbar/Navbar'
+import { Layout } from './components/styled/Layout/Layout'
 
 const ClientRoutes = () => {
-  const { loading } = useAuthContext()
+  const { loading, isAuthenticated } = useAuthContext()
   const location = useLocation()
 
   if (loading) return <>Loading...</>
@@ -15,17 +17,21 @@ const ClientRoutes = () => {
   if (location.pathname === '/') return <Navigate to="/login" replace />
 
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route
-        path="/dashboard/*"
-        element={
-          <AuthWall>
-            <PrivateRoutes />
-          </AuthWall>
-        }
-      />
-    </Routes>
+    <Layout>
+      <Navbar isAuthenticated={isAuthenticated}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard/*"
+            element={
+              <AuthWall>
+                <PrivateRoutes />
+              </AuthWall>
+            }
+          />
+        </Routes>
+      </Navbar>
+    </Layout>
   )
 }
 
