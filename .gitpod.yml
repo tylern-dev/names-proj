@@ -5,3 +5,4 @@ vscode:
     - esbenp.prettier-vscode
     - dbaeumer.vscode-eslint
     - graphql.vscode-graphql
+    - components.vscode-styled-components

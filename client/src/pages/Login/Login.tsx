@@ -1,5 +1,5 @@
-import { useAuthContext } from '../../hooks/AuthProvider'
 import React, { useRef } from 'react'
+import { useAuthContext } from '../../hooks/AuthProvider'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { loginWithEmailPassword } from '../../authentication/login-password'
 
