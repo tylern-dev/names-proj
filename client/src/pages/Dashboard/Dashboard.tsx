@@ -4,7 +4,7 @@ import { Routes, Route, Outlet } from 'react-router-dom'
 const Dashboard = () => {
   return (
     <>
-      <h1>dashboard</h1>
+      <h1>Welcome!</h1>
       <Outlet />
     </>
   )

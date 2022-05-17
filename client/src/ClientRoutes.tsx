@@ -18,19 +18,17 @@ const ClientRoutes = () => {
 
   return (
     <Layout>
-      <Navbar isAuthenticated={isAuthenticated}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard/*"
-            element={
-              <AuthWall>
-                <PrivateRoutes />
-              </AuthWall>
-            }
-          />
-        </Routes>
-      </Navbar>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard/*"
+          element={
+            <AuthWall>
+              <PrivateRoutes />
+            </AuthWall>
+          }
+        />
+      </Routes>
     </Layout>
   )
 }

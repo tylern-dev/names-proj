@@ -22,7 +22,7 @@ describe('<Login /> Component', () => {
     )
 
     render(RenderTree)
-    const input = await screen.findByPlaceholderText(/email/)
+    const input = await screen.findByLabelText(/email/i)
     expect(input).toBeInTheDocument()
   })
 })

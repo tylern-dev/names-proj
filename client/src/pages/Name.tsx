@@ -1,6 +1,5 @@
 import React, { useRef, FormEvent } from 'react'
 import { useLazyQuery, gql } from '@apollo/client'
-import { useAuthContext } from 'src/hooks/AuthProvider'
 
 const QUERY = gql`
   query Name($name: String) {
@@ -10,14 +9,13 @@ const QUERY = gql`
       popularity {
         year
         rank
+        popularity
       }
     }
   }
 `
 
 const Name = () => {
-  const { handleSignOut } = useAuthContext()
-
   const nameRef = useRef<HTMLInputElement>(null)
   const [query] = useLazyQuery(QUERY)
 
@@ -27,7 +25,6 @@ const Name = () => {
   }
   return (
     <>
-      <button onClick={() => handleSignOut()}>sign out</button>
       <h2>Get Names</h2>
       <form onSubmit={handleGetName}>
         <input type="text" placeholder="name" ref={nameRef} />
